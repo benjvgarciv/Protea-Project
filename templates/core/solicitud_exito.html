@@ -1,0 +1,75 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Solicitud Registrada — Protea Consultoría{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow on-ink">Diagnóstico y Evaluación Inicial</span>
+    <h1>¡Solicitud Recibida con Éxito!</h1>
+    <p>Hemos ingresado tu requerimiento a nuestro sistema de asignación de OTEC y Diagnósticos Organizacionales.</p>
+  </div>
+</section>
+
+<section class="section" style="background-color: var(--bg-surface); padding: 60px 0;">
+  <div class="wrap" style="max-width: 900px; margin: 0 auto;">
+    
+    <!-- Ficha de Confirmación de Ticket -->
+    <div style="background: var(--bg-card); border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 32px; box-shadow: var(--shadow-sm); margin-bottom: 40px; position: relative; overflow: hidden;">
+      
+      <!-- Línea Decorativa Superior -->
+      <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, var(--sage) 0%, var(--protea) 100%);"></div>
+      
+      <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 24px;">
+        <div style="background-color: rgba(94, 145, 16, 0.1); color: var(--sage); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800; color: var(--ink); margin: 0; line-height: 1.2;">Resumen de tu Ticket</h2>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin: 4px 0 0 0;">Tu número único de seguimiento es <strong style="color: var(--protea); font-family: var(--font-mono); font-size: 14.5px;">{{ solicitud.ticket }}</strong></p>
+        </div>
+      </div>
+
+      <!-- Detalles en Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; border-top: 1.5px solid var(--line); padding-top: 24px;">
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: var(--ink-muted); font-family: var(--font-mono); display: block; font-weight: 700; letter-spacing: 0.05em;">Servicio Asignado</span>
+          <span style="font-weight: 700; color: var(--ink); font-size: 14.5px; display: block; margin-top: 4px;">{{ solicitud.servicio.titulo }}</span>
+        </div>
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: var(--ink-muted); font-family: var(--font-mono); display: block; font-weight: 700; letter-spacing: 0.05em;">Razón Social / Organización</span>
+          <span style="font-weight: 700; color: var(--ink); font-size: 14.5px; display: block; margin-top: 4px;">{{ solicitud.organizacion }}</span>
+        </div>
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: var(--ink-muted); font-family: var(--font-mono); display: block; font-weight: 700; letter-spacing: 0.05em;">Correo Electrónico</span>
+          <span style="font-weight: 700; color: var(--ink); font-size: 14.5px; display: block; margin-top: 4px;">{{ solicitud.email }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Cuestionario/Google Form -->
+    <div style="background: var(--bg-card); border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
+      <h3 style="font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 12px; line-height: 1.25;">Evaluación de Diagnóstico en Línea</h3>
+      <p style="font-size: 15px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 24px;">
+        Para acelerar el análisis de tu caso y agilizar la asignación de consultores a tu requerimiento, te solicitamos responder el siguiente diagnóstico inicial directamente en esta sección. Al finalizar el cuestionario, nuestro equipo tomará contacto en un plazo máximo de 24 horas hábiles.
+      </p>
+
+      <!-- Google Forms Iframe -->
+      <div style="width: 100%; border-radius: var(--radius-sm); overflow: hidden; border: 1.5px solid var(--line); background: #ffffff; height: 720px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfVa7HlIgcjYzcmjItK4g-U7_pzREYcvLQSZnf--i-d4UjZjw/viewform?embedded=true" width="100%" height="720" frameborder="0" marginheight="0" marginwidth="0" style="border:0; display:block;">Cargando cuestionario de evaluación…</iframe>
+      </div>
+    </div>
+
+    <!-- Botones de Acción inferior -->
+    <div style="display: flex; justify-content: center; gap: 16px; margin-top: 32px;">
+      <a href="{% url 'servicios' %}" class="btn btn-secondary" style="padding: 14px 28px; font-size: 14.5px; border-radius: var(--radius-sm);">
+        Finalizar y Volver a Servicios
+      </a>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

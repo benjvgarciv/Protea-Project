@@ -1,0 +1,337 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Mi Cuenta — Protea Consultoría{% endblock %}
+{% block content %}
+
+<section class="section" style="padding: 40px 0; min-height: 80vh;">
+  <div class="wrap">
+    
+    <!-- Encabezado de Bienvenida -->
+    <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div style="text-align: left;">
+        <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-bottom: 6px;">Portal del Alumno</span>
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 142, 60, 0.08); border: 1px solid #388e3c; padding: 4px 12px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 700; font-family: var(--font-mono); color: #2e7d32; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">
+          👤 Rol: Usuario / Candidato
+        </div>
+        <h1 style="font-size: 26px; font-weight: 800; color: var(--ink); margin-top: 4px; margin-bottom: 6px;">¡Hola de nuevo, Juan Carlos!</h1>
+        <p style="font-size: 14.5px; color: var(--ink-soft); line-height: 1.4;">Bienvenido a tu cuenta de Protea Consultoría. Gestiona tus cursos, evaluaciones y descarga tus certificados oficiales.</p>
+      </div>
+      
+      <!-- Mini Perfil -->
+      <div style="display: flex; align-items: center; gap: 14px; background: var(--bg-surface); padding: 12px 18px; border-radius: var(--radius-sm); border: 1px solid var(--line-light);">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--header-green); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px;">
+          JP
+        </div>
+        <div style="text-align: left;">
+          <span style="font-size: 13.5px; font-weight: 700; color: var(--ink); display: block;">Juan Pérez V.</span>
+          <span style="font-size: 12px; color: var(--ink-soft); font-family: var(--font-mono);">RUT: 15.482.912-3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layout de Panel (Tabs Izquierda + Contenido Derecha) -->
+    <div style="display: grid; grid-template-columns: 260px 1fr; gap: 40px; align-items: start;">
+      
+      <!-- Menú Lateral (Tabs Switchers) -->
+      <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 6px;">
+        
+        <button onclick="switchTab('cursos')" id="tab-btn-cursos" class="user-tab-btn tab-active" style="
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 16px;
+          border-radius: var(--radius-sm);
+          font-family: var(--font-body);
+          font-size: 14.5px;
+          font-weight: 600;
+          color: var(--ink);
+          background: var(--bg-surface);
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          width: 100%;
+          text-align: left;
+        ">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5.12 12.67l-2.07-.84L12 17.24l8.95-4.57-2.07.84L12 16.24l-6.88-3.57z"/></svg>
+          <span>Mis Cursos</span>
+        </button>
+
+        <button onclick="switchTab('evaluaciones')" id="tab-btn-evaluaciones" class="user-tab-btn" style="
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 16px;
+          border-radius: var(--radius-sm);
+          font-family: var(--font-body);
+          font-size: 14.5px;
+          font-weight: 600;
+          color: var(--ink-soft);
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          width: 100%;
+          text-align: left;
+        ">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          <span>Evaluaciones</span>
+        </button>
+
+        <button onclick="switchTab('certificados')" id="tab-btn-certificados" class="user-tab-btn" style="
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 16px;
+          border-radius: var(--radius-sm);
+          font-family: var(--font-body);
+          font-size: 14.5px;
+          font-weight: 600;
+          color: var(--ink-soft);
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          width: 100%;
+          text-align: left;
+        ">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+          <span>Certificados</span>
+        </button>
+
+        <button onclick="switchTab('compras')" id="tab-btn-compras" class="user-tab-btn" style="
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 16px;
+          border-radius: var(--radius-sm);
+          font-family: var(--font-body);
+          font-size: 14.5px;
+          font-weight: 600;
+          color: var(--ink-soft);
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          width: 100%;
+          text-align: left;
+        ">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+          <span>Historial de Compras</span>
+        </button>
+
+      </div>
+
+      <!-- Contenido de Tabs (Derecha) -->
+      <div style="min-height: 400px;">
+        
+        <!-- SECCIÓN 1: MIS CURSOS -->
+        <div id="section-cursos" class="user-panel-section" style="display: flex; flex-direction: column; gap: 24px; text-align: left;">
+          <h2 style="font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Mis Cursos Inscritos</h2>
+          
+          <!-- Cursos Activos -->
+          {% for curso in cursos_activos %}
+            <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: grid; grid-template-columns: 1fr 180px; gap: 20px; align-items: center; position: relative; overflow: hidden;">
+              <div style="position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background: var(--sage);"></div>
+              
+              <div style="padding-left: 12px;">
+                <span style="background: var(--sage-pale); color: var(--ink); font-size: 11.5px; font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: var(--font-mono);">{{ curso.codigo }} - {{ curso.categoria }}</span>
+                <h3 style="font-size: 17px; font-weight: 700; color: var(--ink); margin-top: 10px; margin-bottom: 12px;">{{ curso.titulo }}</h3>
+                
+                <!-- Barra de progreso -->
+                <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
+                  <div style="flex: 1; height: 8px; background: var(--bg-surface); border-radius: 4px; overflow: hidden; border: 1px solid var(--line-light);">
+                    <div style="height: 100%; width: {{ curso.progreso }}%; background: var(--sage); border-radius: 4px;"></div>
+                  </div>
+                  <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--ink-soft);">{{ curso.progreso }}%</span>
+                </div>
+              </div>
+
+              <div>
+                <button class="btn btn-primary" style="width: 100%; padding: 10px 14px; font-size: 13.5px; border-radius: var(--radius-sm); cursor: not-allowed; opacity: 0.85;" title="Curso en curso" disabled>
+                  <span>Continuar Curso</span>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-7.85-1.42 1.42L16.86 11H5v2z"/></svg>
+                </button>
+                <span style="font-size: 11.5px; color: var(--ink-muted); display: block; text-align: center; margin-top: 6px;">Iniciado el {{ curso.fecha_inicio }}</span>
+              </div>
+            </div>
+          {% endfor %}
+
+          <!-- Cursos Completados -->
+          {% for curso in cursos_completados %}
+            <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: grid; grid-template-columns: 1fr 180px; gap: 20px; align-items: center; position: relative; overflow: hidden;">
+              <div style="position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background: #2e7d32;"></div>
+              
+              <div style="padding-left: 12px;">
+                <span style="background: rgba(46, 125, 50, 0.08); color: #2e7d32; font-size: 11.5px; font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: var(--font-mono); border: 1px solid rgba(46, 125, 50, 0.15);">{{ curso.codigo }} - {{ curso.categoria }}</span>
+                <h3 style="font-size: 17px; font-weight: 700; color: var(--ink); margin-top: 10px; margin-bottom: 12px;">{{ curso.titulo }}</h3>
+                
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 13px; color: #2e7d32; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                    ✓ Completado
+                  </span>
+                  <span style="color: var(--ink-muted); font-size: 13px;">| Finalizado el {{ curso.fecha_fin }}</span>
+                </div>
+              </div>
+
+              <div>
+                <a href="{% url 'descargar_certificado' curso.id %}" class="btn btn-ghost" style="width: 100%; padding: 10px 14px; font-size: 13.5px; border-radius: var(--radius-sm); border: 1.5px solid var(--ink); color: var(--ink); text-decoration: none; box-sizing: border-box; text-align: center; display: inline-block;">
+                  Ver Certificado
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
+
+        <!-- SECCIÓN 2: MIS EVALUACIONES -->
+        <div id="section-evaluaciones" class="user-panel-section" style="display: none; flex-direction: column; gap: 24px; text-align: left;">
+          <h2 style="font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Mis Evaluaciones Diagnósticas</h2>
+          
+          {% for eval in evaluaciones %}
+            <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); position: relative; overflow: hidden;">
+              <!-- Barra lateral color-coded -->
+              <div style="position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background: {% if eval.estado == 'aprobado' %}#2e7d32{% else %}#f57c00{% endif %};"></div>
+              
+              <div style="padding-left: 12px; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+                <div style="flex: 1;">
+                  <h3 style="font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 10px;">{{ eval.nombre }}</h3>
+                  <p style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 6px;">{{ eval.comentarios }}</p>
+                  <span style="font-size: 11.5px; color: var(--ink-muted);">Realizada el {{ eval.fecha }}</span>
+                </div>
+
+                <div style="text-align: right;">
+                  <span style="
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    font-size: 12.5px;
+                    font-weight: 700;
+                    padding: 5px 12px;
+                    border-radius: var(--radius-pill);
+                    background-color: {% if eval.estado == 'aprobado' %}rgba(46, 125, 50, 0.08){% else %}rgba(245, 124, 0, 0.08){% endif %};
+                    color: {% if eval.estado == 'aprobado' %}#2e7d32{% else %}#e65100{% endif %};
+                    border: 1px solid {% if eval.estado == 'aprobado' %}rgba(46, 125, 50, 0.18){% else %}rgba(245, 124, 0, 0.18){% endif %};
+                  ">
+                    {% if eval.estado == 'aprobado' %}✓ {{ eval.resultado }}{% else %}⚠ {{ eval.resultado }}{% endif %}
+                  </span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- SECCIÓN 3: CENTRO DE CERTIFICADOS -->
+        <div id="section-certificados" class="user-panel-section" style="display: none; flex-direction: column; gap: 24px; text-align: left;">
+          <h2 style="font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Centro de Descarga de Certificados</h2>
+          <p style="font-size: 14px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 8px;">Aquí encontrarás las acreditaciones y diplomas de los cursos que has completado. Puedes descargarlos de forma oficial en formato PDF.</p>
+          
+          {% for cert in certificados %}
+            <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;">
+              <div style="display: flex; gap: 16px; align-items: center; text-align: left;">
+                <!-- Icono de PDF -->
+                <div style="width: 48px; height: 48px; border-radius: var(--radius-sm); background: rgba(194, 14, 58, 0.08); color: var(--protea); display: flex; align-items: center; justify-content: center;">
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3.5h-1.75V9.5h1.5V11h-1.5v2H19V7h3v1.5zM9 8.5v1.5h1V8.5H9zm5.5 1.5H15v1.5h.5V10zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6z"/></svg>
+                </div>
+                
+                <div>
+                  <h3 style="font-size: 15.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px;">{{ cert.curso_titulo }}</h3>
+                  <div style="font-size: 12.5px; color: var(--ink-soft); display: flex; gap: 12px;">
+                    <span>Emisión: {{ cert.fecha_emision }}</span>
+                    <span>Código: <strong style="font-family: var(--font-mono); color: var(--ink-muted);">{{ cert.codigo_verificacion }}</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <a href="{% url 'descargar_certificado' cert.id %}" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 12px 18px; font-size: 13.5px; border-radius: var(--radius-sm);">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+                  <span>Descargar PDF</span>
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
+
+        <!-- SECCIÓN 4: HISTORIAL DE COMPRAS -->
+        <div id="section-compras" class="user-panel-section" style="display: none; flex-direction: column; gap: 24px; text-align: left;">
+          <h2 style="font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Historial de Transacciones</h2>
+          <p style="font-size: 14px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 8px;">Revisa las compras de cursos y diagnósticos asociadas a tu cuenta y el estado de sus facturas.</p>
+          
+          <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+            <table style="width: 100%; border-collapse: collapse; font-family: var(--font-body); text-align: left;">
+              <thead>
+                <tr style="background: var(--bg-surface); border-bottom: 1.5px solid var(--line); font-size: 12px; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; letter-spacing: 0.02em;">
+                  <th style="padding: 14px 16px;">Nº Factura</th>
+                  <th style="padding: 14px 16px;">Fecha</th>
+                  <th style="padding: 14px 16px;">Descripción</th>
+                  <th style="padding: 14px 16px;">Monto</th>
+                  <th style="padding: 14px 16px;">Método</th>
+                  <th style="padding: 14px 16px; text-align: right;">Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for compra in compras %}
+                  <tr style="border-bottom: 1px solid var(--line-light); font-size: 13.5px;" class="table-row-hover">
+                    <td style="padding: 14px 16px; font-family: var(--font-mono); font-weight: 700; color: var(--ink-muted);">#{{ compra.factura }}</td>
+                    <td style="padding: 14px 16px; color: var(--ink-soft);">{{ compra.fecha }}</td>
+                    <td style="padding: 14px 16px; font-weight: 600; color: var(--ink);">{{ compra.servicio }}</td>
+                    <td style="padding: 14px 16px; font-family: var(--font-mono); font-weight: 600; color: var(--ink);">{{ compra.monto }}</td>
+                    <td style="padding: 14px 16px; font-size: 12px; color: var(--ink-soft);">{{ compra.medio_pago }}</td>
+                    <td style="padding: 14px 16px; text-align: right;">
+                      <span style="
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 4px;
+                        font-size: 11.5px;
+                        font-weight: 700;
+                        padding: 3px 10px;
+                        border-radius: var(--radius-pill);
+                        background-color: rgba(46, 125, 50, 0.08);
+                        color: #2e7d32;
+                        border: 1px solid rgba(46, 125, 50, 0.15);
+                      ">
+                        ✓ {{ compra.estado_pago }}
+                      </span>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function switchTab(tabId) {
+    // Ocultar todas las secciones
+    const sections = document.querySelectorAll('.user-panel-section');
+    sections.forEach(sec => sec.style.display = 'none');
+    
+    // Quitar active de todos los botones
+    const buttons = document.querySelectorAll('.user-tab-btn');
+    buttons.forEach(btn => {
+      btn.style.background = 'transparent';
+      btn.style.color = 'var(--ink-soft)';
+      btn.classList.remove('tab-active');
+    });
+    
+    // Mostrar sección actual
+    document.getElementById('section-' + tabId).style.display = 'flex';
+    
+    // Activar botón actual
+    const activeBtn = document.getElementById('tab-btn-' + tabId);
+    activeBtn.style.background = 'var(--bg-surface)';
+    activeBtn.style.color = 'var(--ink)';
+    activeBtn.classList.add('tab-active');
+  }
+</script>
+
+{% endblock %}

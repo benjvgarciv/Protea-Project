@@ -1,0 +1,92 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}{% if action == 'crear' %}Crear Servicio{% else %}Editar Servicio{% endif %} — Área Privada{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow on-ink">Administración de Servicios</span>
+    <h1>{% if action == 'crear' %}Crear Nueva Línea de Negocio{% else %}Editar Servicio: {{ servicio.codigo }}{% endif %}</h1>
+    <p>Ingresa los detalles para que se actualicen automáticamente en el inicio, listado de servicios y formulario de solicitud.</p>
+  </div>
+</section>
+
+<section class="section" style="min-height: 50vh;">
+  <div class="wrap" style="max-width: 720px; margin: 0 auto;">
+    
+    <div class="contact-form" style="padding: 40px; background: var(--bg-card); border-radius: var(--radius-md); border: 1.5px solid var(--line); box-shadow: var(--shadow-sm);">
+      
+      <form method="post">
+        {% csrf_token %}
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+          <div class="field">
+            <label for="codigo">Código del Servicio</label>
+            <input type="text" id="codigo" name="codigo" placeholder="GP-01" required 
+                   value="{% if action == 'crear' %}{{ servicio_data.codigo|default:'' }}{% else %}{{ servicio.codigo }}{% endif %}" 
+                   {% if action == 'editar' %}disabled{% endif %}>
+            {% if action == 'editar' %}
+              <!-- Para enviar el código aunque esté deshabilitado -->
+              <input type="hidden" name="codigo" value="{{ servicio.codigo }}">
+            {% endif %}
+            <span style="font-size: 11px; color: var(--ink-muted); margin-top: 4px; display: block;">Ejemplo: GP-01, OTEC-02, SO-03. Único.</span>
+          </div>
+
+          <div class="field">
+            <label for="categoria">Categoría</label>
+            <input type="text" id="categoria" name="categoria" placeholder="Gestión de Personas" required
+                   value="{% if action == 'crear' %}{{ servicio_data.categoria|default:'' }}{% else %}{{ servicio.categoria }}{% endif %}">
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom: 20px;">
+          <label for="titulo">Título de la Consultoría</label>
+          <input type="text" id="titulo" name="titulo" placeholder="Gestión de Personas y Reclutamiento Activo" required
+                 value="{% if action == 'crear' %}{{ servicio_data.titulo|default:'' }}{% else %}{{ servicio.titulo }}{% endif %}">
+        </div>
+
+        <div class="field" style="margin-bottom: 20px;">
+          <label for="resumen">Resumen Corto (Tarjetas de Inicio)</label>
+          <textarea id="resumen" name="resumen" placeholder="Selección especializada y evaluaciones psicolaborales..." required style="height: 80px;">{% if action == 'crear' %}{{ servicio_data.resumen|default:'' }}{% else %}{{ servicio.resumen }}{% endif %}</textarea>
+        </div>
+
+        <div class="field" style="margin-bottom: 20px;">
+          <label for="detalle">Detalle Extendido (Página de Solicitud)</label>
+          <textarea id="detalle" name="detalle" placeholder="Enfoque especializado en la zona centro-sur de Chile..." required style="height: 120px;">{% if action == 'crear' %}{{ servicio_data.detalle|default:'' }}{% else %}{{ servicio.detalle }}{% endif %}</textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+          <div class="field">
+            <label for="duracion">Duración Estimada</label>
+            <input type="text" id="duracion" name="duracion" placeholder="Cursos modulares / A medida" required
+                   value="{% if action == 'crear' %}{{ servicio_data.duracion|default:'' }}{% else %}{{ servicio.duracion }}{% endif %}">
+          </div>
+
+          <div class="field">
+            <label for="modalidad">Modalidad</label>
+            <input type="text" id="modalidad" name="modalidad" placeholder="Presencial / Online / Mixta" required
+                   value="{% if action == 'crear' %}{{ servicio_data.modalidad|default:'' }}{% else %}{{ servicio.modalidad }}{% endif %}">
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom: 24px;">
+          <label for="entregables">Entregables (Uno por línea)</label>
+          <textarea id="entregables" name="entregables" placeholder="Reclutamiento y selección&#10;Evaluaciones psicolaborales&#10;Informes de idoneidad" required style="height: 120px;">{% if action == 'crear' %}{{ servicio_data.entregables|default:'' }}{% else %}{{ entregables_str }}{% endif %}</textarea>
+          <span style="font-size: 11px; color: var(--ink-muted); margin-top: 4px; display: block;">Presiona Enter para separar cada entregable.</span>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 30px;">
+          <a href="{% url 'dashboard' %}" class="btn btn-ghost" style="padding: 10px 20px; font-size: 13.5px; border-radius: var(--radius-sm);">Cancelar</a>
+          <button type="submit" class="btn btn-primary" style="padding: 10px 24px; font-size: 13.5px; border-radius: var(--radius-sm);">
+            {% if action == 'crear' %}Crear Servicio{% else %}Guardar Cambios{% endif %}
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

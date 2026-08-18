@@ -1,0 +1,248 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Detalle de Respuestas — Protea Consultoría{% endblock %}
+{% block content %}
+
+<section class="section" style="padding: 40px 0; min-height: 80vh;">
+  <div class="wrap">
+    
+    <!-- Botón Volver -->
+    <div style="margin-bottom: 28px;">
+      <a href="{% url 'dashboard' %}" class="btn btn-ghost" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 13.5px; font-weight: 600;">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="transform: rotate(180deg);"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-7.85-1.42 1.42L16.86 11H5v2z"/></svg>
+        Volver al Panel Privado
+      </a>
+    </div>
+
+    <!-- Mensajes Flash -->
+    {% if messages %}
+      <div style="margin-bottom: 30px;">
+        {% for m in messages %}
+          {% if m.tags == 'success' %}
+            <div class="rut-feedback text-valid" style="background-color: rgba(56, 142, 60, 0.06); border: 1px solid rgba(56, 142, 60, 0.15); padding: 14px 18px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; color: #2e7d32; display: flex; align-items: center; gap: 10px; text-align: left;">
+              ✓ {{ m }}
+            </div>
+          {% else %}
+            <div class="rut-feedback text-invalid" style="background-color: rgba(194, 14, 58, 0.06); border: 1px solid rgba(194, 14, 58, 0.15); padding: 14px 18px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; color: var(--protea); display: flex; align-items: center; gap: 10px; text-align: left;">
+              ⚠ {{ m }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Encabezado de Página -->
+    <div style="margin-bottom: 32px; border-bottom: 1.5px solid var(--line-light); padding-bottom: 24px;">
+      <h1 style="font-size: 28px; font-weight: 800; color: var(--ink); margin-bottom: 8px;">Respuestas de Encuesta</h1>
+      <p style="font-size: 15px; color: var(--ink-soft); line-height: 1.5;">Evaluación de diagnóstico para el candidato: <strong style="color: var(--ink);">{{ response.nombre }}</strong>.</p>
+    </div>
+
+    <!-- Contenedor de Dos Columnas -->
+    <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 40px; align-items: start;">
+      
+      <!-- Columna Izquierda: Respuestas de la Encuesta -->
+      <div style="display: flex; flex-direction: column; gap: 28px;">
+        
+        <!-- Tarjeta de Información General -->
+        <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 20px; border-bottom: 1px dashed var(--line); padding-bottom: 12px; font-family: var(--font-mono); letter-spacing: -0.02em;">DATOS DEL CANDIDATO</h3>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; font-size: 14px;">
+            <div>
+              <span style="font-size: 12px; color: var(--ink-muted); font-weight: 600; display: block; margin-bottom: 4px; text-transform: uppercase;">Nombre Completo</span>
+              <span style="font-weight: 700; color: var(--ink);">{{ response.nombre|default:"No indicado" }}</span>
+            </div>
+            <div>
+              <span style="font-size: 12px; color: var(--ink-muted); font-weight: 600; display: block; margin-bottom: 4px; text-transform: uppercase;">RUT</span>
+              <span style="font-family: var(--font-mono); font-weight: 600; color: var(--ink);">{{ response.rut|default:"No indicado" }}</span>
+            </div>
+            <div>
+              <span style="font-size: 12px; color: var(--ink-muted); font-weight: 600; display: block; margin-bottom: 4px; text-transform: uppercase;">Correo Electrónico</span>
+              <span style="color: var(--ink);">{{ response.email|default:"No indicado" }}</span>
+            </div>
+            <div>
+              <span style="font-size: 12px; color: var(--ink-muted); font-weight: 600; display: block; margin-bottom: 4px; text-transform: uppercase;">Marca Temporal de Envío</span>
+              <span style="font-size: 13.5px; color: var(--ink-soft);">{{ response.timestamp }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Preguntas y Respuestas -->
+        <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 24px; border-bottom: 1px dashed var(--line); padding-bottom: 12px; font-family: var(--font-mono); letter-spacing: -0.02em;">CUESTIONARIO DE RESPUESTAS</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            {% for item in response.detalle %}
+              <div style="border-bottom: 1px solid var(--line-light); padding-bottom: 20px; transition: background 0.2s ease; text-align: left;">
+                <div style="font-size: 14.5px; font-weight: 700; color: var(--ink); line-height: 1.45; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px;">
+                  <span style="background: var(--bg-surface); color: var(--ink-soft); font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 700;">Q{{ forloop.counter }}</span>
+                  <span>{{ item.pregunta }}</span>
+                </div>
+                <div style="font-size: 14px; color: var(--ink-soft); line-height: 1.55; padding-left: 48px; font-style: italic; white-space: pre-line;">
+                  "{{ item.respuesta }}"
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Columna Derecha: Panel de Calificación / Evaluación -->
+      <div style="display: flex; flex-direction: column; gap: 28px; position: sticky; top: 100px;">
+        
+        <!-- Estado Actual de la Evaluación -->
+        {% if evaluacion %}
+          <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: relative; overflow: hidden; text-align: left;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: {% if evaluacion.resultado == 'Apto' %}#2e7d32{% else %}var(--protea){% endif %};"></div>
+            
+            <h3 style="font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 18px; font-family: var(--font-mono); letter-spacing: -0.02em;">ESTADO DE EVALUACIÓN</h3>
+            
+            <div style="margin-bottom: 18px;">
+              <span style="font-size: 12px; color: var(--ink-muted); font-weight: 600; display: block; margin-bottom: 6px; text-transform: uppercase;">Resolución</span>
+              <span style="
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 13.5px;
+                font-weight: 700;
+                padding: 6px 14px;
+                border-radius: var(--radius-pill);
+                background-color: {% if evaluacion.resultado == 'Apto' %}rgba(46, 125, 50, 0.08){% else %}rgba(194, 14, 58, 0.08){% endif %};
+                color: {% if evaluacion.resultado == 'Apto' %}#2e7d32{% else %}var(--protea){% endif %};
+                border: 1px solid {% if evaluacion.resultado == 'Apto' %}rgba(46, 125, 50, 0.18){% else %}rgba(194, 14, 58, 0.18){% endif %};
+              ">
+                {% if evaluacion.resultado == 'Apto' %}
+                  ✓ Apto / Aprobado
+                {% else %}
+                  ✗ No Apto / Rechazado
+                {% endif %}
+              </span>
+            </div>
+
+            <div style="margin-bottom: 18px;">
+              <span style="font-size: 12px; color: var(--ink-muted); font-weight: 600; display: block; margin-bottom: 6px; text-transform: uppercase;">Motivo registrado</span>
+              <p style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; white-space: pre-line; background: var(--bg-surface); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--line-light);">{{ evaluacion.motivo }}</p>
+            </div>
+
+            <div>
+              <span style="font-size: 11.5px; color: var(--ink-muted);">Evaluado el {{ evaluacion.fecha_evaluacion|date:"d/m/Y a las H:i" }}</span>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Formulario de Evaluación -->
+        <div style="background: #ffffff; border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); text-align: left;">
+          <h3 style="font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 20px; font-family: var(--font-mono); letter-spacing: -0.02em;">
+            {% if evaluacion %}ACTUALIZAR CALIFICACIÓN{% else %}CALIFICAR CANDIDATO{% endif %}
+          </h3>
+          
+          <form method="post" action="{% url 'survey_detail' response.id %}">
+            {% csrf_token %}
+            
+            <!-- Elección Apto / No Apto -->
+            <div style="margin-bottom: 20px;">
+              <label style="font-size: 13px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 8px;">Estado del Postulante</label>
+              <div style="display: flex; gap: 12px;">
+                <label style="
+                  flex: 1;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 8px;
+                  padding: 12px;
+                  border: 1.5px solid var(--line);
+                  border-radius: var(--radius-sm);
+                  cursor: pointer;
+                  font-weight: 600;
+                  font-size: 13.5px;
+                  color: var(--ink-soft);
+                  transition: all 0.2s ease;
+                " id="label-apto">
+                  <input type="radio" name="resultado" value="Apto" required style="accent-color: #2e7d32;" {% if evaluacion.resultado == 'Apto' %}checked{% endif %} onclick="updateRadioStyles('Apto')">
+                  <span>Apto</span>
+                </label>
+                
+                <label style="
+                  flex: 1;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 8px;
+                  padding: 12px;
+                  border: 1.5px solid var(--line);
+                  border-radius: var(--radius-sm);
+                  cursor: pointer;
+                  font-weight: 600;
+                  font-size: 13.5px;
+                  color: var(--ink-soft);
+                  transition: all 0.2s ease;
+                " id="label-noapto">
+                  <input type="radio" name="resultado" value="No Apto" required style="accent-color: var(--protea);" {% if evaluacion.resultado == 'No Apto' %}checked{% endif %} onclick="updateRadioStyles('No Apto')">
+                  <span>No Apto</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Motivo -->
+            <div class="field" style="margin-bottom: 20px;">
+              <label for="motivo" style="font-size: 13px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 8px;">Motivo y Comentarios</label>
+              <textarea id="motivo" name="motivo" rows="6" placeholder="Detalla el motivo y observaciones sobre el perfil del candidato..." required style="width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 13.5px; line-height: 1.5; resize: vertical; min-height: 120px;">{{ evaluacion.motivo }}</textarea>
+            </div>
+
+            <!-- Nota informativa -->
+            <div style="background: rgba(192, 154, 70, 0.06); border: 1px solid rgba(192, 154, 70, 0.2); padding: 12px; border-radius: var(--radius-sm); font-size: 12px; color: #856404; line-height: 1.5; margin-bottom: 22px; display: flex; gap: 8px; align-items: flex-start;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="flex-shrink: 0; margin-top: 2px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              <span>Al enviar la calificación, se guardará en el sistema y se enviará automáticamente un correo electrónico de notificación al candidato.</span>
+            </div>
+
+            <!-- Botón Submit -->
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 14px 20px; font-weight: 700;">
+              <span>Guardar y Enviar Notificación</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+            
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function updateRadioStyles(value) {
+    const labelApto = document.getElementById('label-apto');
+    const labelNoApto = document.getElementById('label-noapto');
+    
+    if (value === 'Apto') {
+      labelApto.style.borderColor = '#2e7d32';
+      labelApto.style.backgroundColor = 'rgba(46, 125, 50, 0.04)';
+      labelApto.style.color = '#2e7d32';
+      
+      labelNoApto.style.borderColor = 'var(--line)';
+      labelNoApto.style.backgroundColor = 'transparent';
+      labelNoApto.style.color = 'var(--ink-soft)';
+    } else {
+      labelNoApto.style.borderColor = 'var(--protea)';
+      labelNoApto.style.backgroundColor = 'rgba(194, 14, 58, 0.04)';
+      labelNoApto.style.color = 'var(--protea)';
+      
+      labelApto.style.borderColor = 'var(--line)';
+      labelApto.style.backgroundColor = 'transparent';
+      labelApto.style.color = 'var(--ink-soft)';
+    }
+  }
+
+  // Inicializar estilos de radio botones en la carga de página
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkedRadio = document.querySelector('input[name="resultado"]:checked');
+    if (checkedRadio) {
+      updateRadioStyles(checkedRadio.value);
+    }
+  });
+</script>
+
+{% endblock %}

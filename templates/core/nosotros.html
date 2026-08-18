@@ -1,0 +1,163 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Nosotros — Protea Consultoría{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow on-ink">Nosotros</span>
+    <h1>Fundación y Trayectoria de Consultora Protea Ltda.</h1>
+    <p>Somos una firma chilena de recursos humanos y desarrollo organizacional fundada en mayo de 2015 en Los Ángeles, Región del Biobío. Operamos bajo el liderazgo de nuestra fundadora, la psicóloga organizacional Gabriela Bahamondes Valenzuela, con un fuerte compromiso por generar transformaciones que perduran en el tiempo.</p>
+  </div>
+</section>
+
+<!-- Sección Acróstico PROTEA -->
+<section class="section acrostic-section" id="esencia-protea">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Nuestra Esencia</span>
+      <h2>¿Por qué nos llamamos PROTEA?</h2>
+      <p>Utilizamos la flor protea como símbolo de nuestra identidad debido a su resiliencia y su extraordinaria capacidad de adaptación en entornos altamente cambiantes. Nuestro nombre sintetiza los cuatro pilares bajo los cuales potenciamos a las organizaciones:</p>
+    </div>
+
+    <div class="acrostic-container">
+      <!-- Fila PRO -->
+      <div class="acrostic-row">
+        <div class="acrostic-letter-block">
+          <span class="letter-main">Pro</span>
+          <span class="letter-rest">moviendo</span>
+        </div>
+        <div class="acrostic-content">
+          <h3>Impulsar la Acción</h3>
+          <p>Movilizamos a las organizaciones hacia su transformación. No nos quedamos solo en el diagnóstico estático; propiciamos el movimiento necesario para que la estrategia cobre vida y genere tracción real.</p>
+        </div>
+      </div>
+
+      <!-- Fila T -->
+      <div class="acrostic-row">
+        <div class="acrostic-letter-block">
+          <span class="letter-main">T</span>
+          <span class="letter-rest">alento</span>
+        </div>
+        <div class="acrostic-content">
+          <h3>Desarrollar Capacidad</h3>
+          <p>Potenciamos el valor de las personas en la organización. Una estrategia solo es exitosa si el equipo humano cuenta con la formación, la alineación y el criterio estratégico para ejecutarla con excelencia.</p>
+        </div>
+      </div>
+
+      <!-- Fila E -->
+      <div class="acrostic-row">
+        <div class="acrostic-letter-block">
+          <span class="letter-main">E</span>
+          <span class="letter-rest">ficiencia</span>
+        </div>
+        <div class="acrostic-content">
+          <h3>Optimizar Procesos</h3>
+          <p>Estructuramos operaciones libres de fricción. Buscamos eliminar cuellos de botella y duplicidades para asegurar que los recursos se utilicen de manera inteligente, maximizando la rentabilidad.</p>
+        </div>
+      </div>
+
+      <!-- Fila A -->
+      <div class="acrostic-row">
+        <div class="acrostic-letter-block">
+          <span class="letter-main">A</span>
+          <span class="letter-rest">prendizaje</span>
+        </div>
+        <div class="acrostic-content">
+          <h3>Autonomía y Legado</h3>
+          <p>Aseguramos la transferencia real de conocimientos. Diseñamos nuestras intervenciones para dejar capacidad instalada y herramientas útiles, garantizando que el crecimiento florezca de forma autónoma.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sección de Equipo / Consultores -->
+<section class="section team-section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Nuestro Equipo</span>
+      <h2>Experiencia y criterio al servicio de su organización</h2>
+      <p>Profesionales formados en las mejores instituciones, con probada trayectoria liderando proyectos estratégicos de alto impacto.</p>
+    </div>
+    
+    <div class="team-grid">
+      {% for m in equipo %}
+      <article class="team-card">
+        <div class="team-card-media">
+          <img src="{% static m.foto %}" alt="{{ m.nombre }}" class="team-img" loading="lazy">
+          <span class="team-exp-badge">{{ m.experiencia }}</span>
+        </div>
+        
+        <div class="team-card-body">
+          <h3 class="team-name">{{ m.nombre }}</h3>
+          <div class="team-role">{{ m.rol }}</div>
+          
+          <div class="team-origin">
+            <svg class="team-origin-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+            </svg>
+            <span class="team-origin-text">{{ m.origen }}</span>
+          </div>
+          
+          <p class="team-desc">{{ m.descripcion }}</p>
+        </div>
+        
+        <!-- Pétalos de Protea con rojo en el borde inferior derecho -->
+        <div class="team-card-petals" aria-hidden="true">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="petals-svg">
+            <!-- Pétalos exteriores -->
+            <path d="M120 30 C90 35 68 75 70 120 C92 120 114 100 120 30 Z" fill="#6B091E" opacity="0.85"/>
+            <path d="M30 120 C35 90 75 68 120 70 C120 92 100 114 30 120 Z" fill="#7A0C24" opacity="0.85"/>
+            <!-- Pétalos intermedios rojo protea -->
+            <path d="M120 50 C95 55 80 88 85 120 C102 120 116 106 120 50 Z" fill="#9E1130" opacity="0.95"/>
+            <path d="M50 120 C55 95 88 80 120 85 C120 102 106 116 50 120 Z" fill="#BE1238" opacity="0.95"/>
+            <!-- Pétalos centrales en floración viva -->
+            <path d="M120 72 C100 78 90 98 94 120 C108 120 118 110 120 72 Z" fill="#D81E48"/>
+            <path d="M72 120 C78 100 98 90 120 94 C120 108 110 118 72 120 Z" fill="#E82C58"/>
+            <!-- Pétalo interior destacado -->
+            <path d="M120 90 C108 94 100 106 104 120 C114 120 120 114 120 90 Z" fill="#FF527B"/>
+          </svg>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Cómo pensamos</span>
+      <h2>Tres principios que no negociamos</h2>
+    </div>
+    <div class="valores-list">
+      {% for v in valores %}
+      <div class="valor-row">
+        <h3>{{ v.nombre }}</h3>
+        <p>{{ v.descripcion }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Cifras de Trayectoria e Impacto -->
+<section class="section metrics-section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Trayectoria</span>
+      <h2>Resultados tangibles y compromiso sostenido</h2>
+    </div>
+    <div class="metrics-grid">
+      {% for c in cifras %}
+      <div class="metric-card">
+        <div class="metric-valor">{{ c.valor }}</div>
+        <div class="metric-etiqueta">{{ c.etiqueta }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

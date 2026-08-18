@@ -1,0 +1,499 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Panel de Consultores — Protea Consultoría{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow on-ink">Área Privada de Consultores</span>
+      <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.4); padding: 4px 12px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 700; font-family: var(--font-mono); color: #ffffff; text-transform: uppercase; margin-top: 8px; margin-bottom: 12px; letter-spacing: 0.05em;">
+        🛡 Rol: Administrador
+      </div>
+      <h1>Panel de Solicitudes y Diagnósticos</h1>
+      <p>Bienvenido, <strong>{{ user.username|capfirst }}</strong>. Aquí puedes gestionar los servicios y requerimientos activos.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="min-height: 60vh; padding-top: 30px;">
+  <div class="wrap">
+    
+    <!-- Mensajes del Sistema (Éxito / Error) -->
+    {% if messages %}
+      <div style="margin-bottom: 24px;">
+        {% for m in messages %}
+          <div class="rut-feedback {% if m.tags == 'success' %}text-valid{% else %}text-invalid{% endif %}" style="background-color: {% if m.tags == 'success' %}rgba(94, 145, 16, 0.06){% else %}rgba(194, 14, 58, 0.06){% endif %}; border: 1.5px solid {% if m.tags == 'success' %}rgba(94, 145, 16, 0.2){% else %}rgba(194, 14, 58, 0.15){% endif %}; padding: 12px 18px; border-radius: var(--radius-sm); font-size: 14.5px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+            {% if m.tags == 'success' %}✔{% else %}⚠{% endif %} {{ m }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Grid de Métricas y Contadores -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 32px;">
+      
+      <!-- Card: Total Solicitudes -->
+      <div style="background: var(--bg-card); border-radius: var(--radius-md); padding: 24px; border: 1.5px solid transparent; background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box, linear-gradient(135deg, var(--sage) 0%, rgba(194, 14, 58, 0.15) 100%) border-box; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 20px;">
+        <div style="background-color: rgba(94, 145, 16, 0.08); width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--sage); flex-shrink: 0;">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </div>
+        <div>
+          <span style="display: block; font-size: 13.5px; font-family: var(--font-mono); text-transform: uppercase; color: var(--ink-soft); font-weight: 600;">Solicitudes</span>
+          <span style="display: block; font-size: 32px; font-weight: 800; color: var(--ink); line-height: 1.2; margin-top: 4px;">{{ total_solicitudes }}</span>
+        </div>
+      </div>
+
+      <!-- Card: Líneas de Negocio -->
+      <div style="background: var(--bg-card); border-radius: var(--radius-md); padding: 24px; border: 1.5px solid transparent; background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box, linear-gradient(135deg, var(--sage) 0%, rgba(194, 14, 58, 0.15) 100%) border-box; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 20px;">
+        <div style="background-color: rgba(194, 14, 58, 0.06); width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--protea); flex-shrink: 0;">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.47 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        </div>
+        <div>
+          <span style="display: block; font-size: 13.5px; font-family: var(--font-mono); text-transform: uppercase; color: var(--ink-soft); font-weight: 600;">Líneas de Negocio</span>
+          <span style="display: block; font-size: 32px; font-weight: 800; color: var(--ink); line-height: 1.2; margin-top: 4px;">{{ total_servicios }}</span>
+        </div>
+      </div>
+
+      <!-- Card: Clientes Unicos -->
+      <div style="background: var(--bg-card); border-radius: var(--radius-md); padding: 24px; border: 1.5px solid transparent; background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box, linear-gradient(135deg, var(--sage) 0%, rgba(194, 14, 58, 0.15) 100%) border-box; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 20px;">
+        <div style="background-color: rgba(192, 154, 70, 0.08); width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold); flex-shrink: 0;">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        </div>
+        <div>
+          <span style="display: block; font-size: 13.5px; font-family: var(--font-mono); text-transform: uppercase; color: var(--ink-soft); font-weight: 600;">Clientes Únicos</span>
+          <span style="display: block; font-size: 32px; font-weight: 800; color: var(--ink); line-height: 1.2; margin-top: 4px;">{{ total_clientes }}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 1: GESTIÓN DE SOLICITUDES -->
+    <div style="background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 32px; box-shadow: var(--shadow-sm); margin-bottom: 40px; overflow-x: auto;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <h3 style="font-size: 20px; font-weight: 700; color: var(--ink);">Solicitudes y Requerimientos</h3>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin-top: 4px;">Lista de clientes que han ingresado un RUT y solicitado diagnósticos en vivo.</p>
+        </div>
+        <span style="font-size: 12.5px; font-family: var(--font-mono); color: var(--ink-muted); font-weight: 600; padding: 6px 14px; background: var(--bg-surface); border-radius: var(--radius-pill);">
+          {{ solicitudes|length }} Solicitudes Registradas
+        </span>
+      </div>
+
+      <table class="dashboard-table" style="width: 100%; border-collapse: collapse; text-align: left; min-width: 900px;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--line); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft);">
+            <th style="padding: 12px 16px;">Nº Ticket</th>
+            <th style="padding: 12px 16px;">Organización / Razón Social</th>
+            <th style="padding: 12px 16px;">Contacto</th>
+            <th style="padding: 12px 16px;">Servicio Solicitado</th>
+            <th style="padding: 12px 16px;">Estado</th>
+            <th style="padding: 12px 16px; text-align: right;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sol in solicitudes %}
+          <tr style="border-bottom: 1px solid var(--line-light); font-size: 14px; transition: background 0.2s ease;" class="table-row-hover">
+            <td style="padding: 18px 16px; font-family: var(--font-mono); font-weight: 700; color: var(--protea);">{{ sol.ticket }}</td>
+            <td style="padding: 18px 16px;">
+              <div style="font-weight: 700; color: var(--ink);">{{ sol.organizacion }}</div>
+              <div style="font-size: 12px; color: var(--ink-muted); font-family: var(--font-mono);">RUT: {{ sol.rut }}</div>
+            </td>
+            <td style="padding: 18px 16px;">
+              <div style="font-weight: 600; color: var(--ink-soft);">{{ sol.nombre }}</div>
+              <div style="font-size: 12.5px; color: var(--ink-muted);">{{ sol.email }}</div>
+              <div style="font-size: 12.5px; color: var(--ink-muted); font-family: var(--font-mono);">{{ sol.telefono }}</div>
+            </td>
+            <td style="padding: 18px 16px; color: var(--ink-soft);">
+              <strong>[{{ sol.servicio.codigo }}]</strong> {{ sol.servicio.titulo }}
+            </td>
+            <td style="padding: 18px 16px;">
+              <span class="status-badge" data-status="{{ sol.estado }}">
+                {{ sol.estado }}
+              </span>
+            </td>
+            <td style="padding: 18px 16px; text-align: right;">
+              <div style="display: inline-flex; gap: 8px; justify-content: flex-end;">
+                <a href="{% url 'solicitud_editar' sol.id %}" class="btn btn-ghost" style="padding: 6px 12px; font-size: 12px; border-radius: var(--radius-sm);">Editar</a>
+                <a href="{% url 'solicitud_eliminar' sol.id %}" class="btn btn-ghost text-invalid-btn" style="padding: 6px 12px; font-size: 12px; border-radius: var(--radius-sm);" onclick="return confirm('¿Seguro que desea eliminar esta solicitud?');">Eliminar</a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" style="padding: 32px 16px; text-align: center; color: var(--ink-muted); font-style: italic;">
+              No se han registrado solicitudes de consultoría en la base de datos.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+
+    <!-- TAB 2: GESTIÓN DE SERVICIOS -->
+    <div style="background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 32px; box-shadow: var(--shadow-sm); overflow-x: auto;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <h3 style="font-size: 20px; font-weight: 700; color: var(--ink);">Líneas de Negocio (Servicios CRUD)</h3>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin-top: 4px;">Administra los servicios expuestos en el inicio y en el formulario de solicitudes.</p>
+        </div>
+        <a href="{% url 'servicio_crear' %}" class="btn btn-primary" style="padding: 8px 16px; font-size: 12.5px; border-radius: var(--radius-sm); font-family: var(--font-body); text-transform: none; letter-spacing: normal;">
+          + Crear Nuevo Servicio
+        </a>
+      </div>
+
+      <table class="dashboard-table" style="width: 100%; border-collapse: collapse; text-align: left; min-width: 900px;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--line); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft);">
+            <th style="padding: 12px 16px; width: 100px;">Código</th>
+            <th style="padding: 12px 16px; width: 180px;">Categoría</th>
+            <th style="padding: 12px 16px;">Título del Servicio</th>
+            <th style="padding: 12px 16px; width: 160px;">Duración / Modalidad</th>
+            <th style="padding: 12px 16px; width: 220px; text-align: right;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in servicios %}
+          <tr style="border-bottom: 1px solid var(--line-light); font-size: 14px; transition: background 0.2s ease;" class="table-row-hover">
+            <td style="padding: 18px 16px; font-family: var(--font-mono); font-weight: 700; color: var(--protea);">{{ s.codigo }}</td>
+            <td style="padding: 18px 16px;"><span class="service-category-tag" style="display: inline-block; font-size: 11px;">{{ s.categoria }}</span></td>
+            <td style="padding: 18px 16px;">
+              <div style="font-weight: 700; color: var(--ink);">{{ s.titulo }}</div>
+              <div style="font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4;">{{ s.resumen }}</div>
+            </td>
+            <td style="padding: 18px 16px;">
+              <div style="font-size: 13px; color: var(--ink-soft);">⏳ {{ s.duracion }}</div>
+              <div style="font-size: 13px; color: var(--ink-soft); margin-top: 2px;">📍 {{ s.modalidad }}</div>
+            </td>
+            <td style="padding: 18px 16px; text-align: right;">
+              <div style="display: inline-flex; gap: 8px; justify-content: flex-end;">
+                <a href="{% url 'servicio_editar' s.codigo %}" class="btn btn-ghost" style="padding: 6px 12px; font-size: 12px; border-radius: var(--radius-sm);">Editar</a>
+                <a href="{% url 'servicio_eliminar' s.codigo %}" class="btn btn-ghost text-invalid-btn" style="padding: 6px 12px; font-size: 12px; border-radius: var(--radius-sm);" onclick="return confirm('¿Seguro que desea eliminar este servicio? Esto también eliminará las solicitudes asociadas a él.');">Eliminar</a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" style="padding: 32px 16px; text-align: center; color: var(--ink-muted); font-style: italic;">
+              No se han registrado servicios en el sistema.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+
+    <!-- TAB 3: GESTIÓN DE IMÁGENES DEL CARRUSEL -->
+    <div style="background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 32px; box-shadow: var(--shadow-sm); margin-top: 40px; overflow-x: auto;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <h3 style="font-size: 20px; font-weight: 700; color: var(--ink);">Imágenes del Carrusel del Hero (Inicio)</h3>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin-top: 4px;">Administra las fotos que se despliegan en la cabecera rotativa del inicio de la página.</p>
+        </div>
+        {% if carousel_images|length >= 5 %}
+        <span style="display: inline-block; padding: 8px 16px; font-size: 12px; border-radius: var(--radius-sm); font-family: var(--font-body); background: var(--line); color: var(--ink-soft); cursor: not-allowed; border: 1.5px solid var(--line); font-weight: 700;">
+          Límite de 5 Fotos Alcanzado
+        </span>
+        {% else %}
+        <a href="{% url 'carousel_crear' %}" class="btn btn-primary" style="padding: 8px 16px; font-size: 12.5px; border-radius: var(--radius-sm); font-family: var(--font-body); text-transform: none; letter-spacing: normal;">
+          + Agregar Imagen
+        </a>
+        {% endif %}
+      </div>
+
+      <table class="dashboard-table" style="width: 100%; border-collapse: collapse; text-align: left; min-width: 900px;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--line); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft);">
+            <th style="padding: 12px 16px; width: 80px;">Orden</th>
+            <th style="padding: 12px 16px; width: 140px;">Miniatura</th>
+            <th style="padding: 12px 16px;">Título / Leyenda</th>
+            <th style="padding: 12px 16px; width: 220px; text-align: right;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for img in carousel_images %}
+          <tr style="border-bottom: 1px solid var(--line-light); font-size: 14px; transition: background 0.2s ease;" class="table-row-hover">
+            <td style="padding: 18px 16px; font-family: var(--font-mono); font-weight: 700; color: var(--ink);">{{ img.orden }}</td>
+            <td style="padding: 8px 16px;">
+              <img src="{% static img.imagen_path %}" alt="Miniatura" style="width: 100px; height: 60px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line);">
+            </td>
+            <td style="padding: 18px 16px; font-weight: 700; color: var(--ink);">{{ img.titulo }}</td>
+            <td style="padding: 18px 16px; text-align: right;">
+              <div style="display: inline-flex; gap: 8px; justify-content: flex-end;">
+                <a href="{% url 'carousel_editar' img.id %}" class="btn btn-ghost" style="padding: 6px 12px; font-size: 12px; border-radius: var(--radius-sm);">Editar</a>
+                <a href="{% url 'carousel_eliminar' img.id %}" class="btn btn-ghost text-invalid-btn" style="padding: 6px 12px; font-size: 12px; border-radius: var(--radius-sm);" onclick="return confirm('¿Seguro que desea eliminar esta imagen del carrusel?');">Eliminar</a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4" style="padding: 32px 16px; text-align: center; color: var(--ink-muted); font-style: italic;">
+              No hay imágenes registradas en el carrusel de inicio.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+
+    <!-- TAB 4: RESPUESTAS DE ENCUESTAS GOOGLE FORMS -->
+    <div style="background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 32px; box-shadow: var(--shadow-sm); margin-top: 40px;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <h3 style="font-size: 20px; font-weight: 700; color: var(--ink);">Respuestas Encuesta Diagnóstico (Google Forms)</h3>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin-top: 4px;">Monitorea y filtra las evaluaciones preliminares cargadas desde la hoja de respuestas vinculada de tu Google Form.</p>
+        </div>
+        
+        <!-- Configuración de la URL de Google Sheets -->
+        <button class="btn btn-secondary" onclick="toggleConfigSheet()" style="padding: 8px 16px; font-size: 12.5px; border-radius: var(--radius-sm);">
+          ⚙ Configurar Google Sheet
+        </button>
+      </div>
+
+      <!-- Card Desplegable de Configuración -->
+      <div id="config-sheet-card" style="display: none; background: var(--bg-surface); border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-sm);">
+        <h4 style="font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Vincular Respuestas de Google Forms</h4>
+        <p style="font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 16px;">
+          Para ver las respuestas reales de tu encuesta, vincula tu Google Form a una hoja de cálculo, publícala como CSV en la web y pega la URL aquí.
+          <br>
+          <strong style="color: var(--protea);">Instrucciones:</strong> 
+          1. Abre tu Google Sheet de Respuestas. 
+          2. Ve a <em>Archivo > Compartir > Publicar en la Web</em>. 
+          3. Elige <em>Valores separados por comas (.csv)</em>. 
+          4. Haz clic en <em>Publicar</em> y copia el enlace generado.
+        </p>
+        <form method="POST" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="save_google_sheet">
+          <input type="url" name="google_sheet_url" placeholder="https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?output=csv" value="{{ google_sheet_url }}" style="flex: 1; min-width: 300px; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: var(--radius-sm); font-family: var(--font-body); background: var(--bg-surface); color: var(--ink);" required>
+          <button type="submit" class="btn btn-primary" style="padding: 10px 20px; font-size: 13px; border-radius: var(--radius-sm);">Vincular Hoja</button>
+        </form>
+      </div>
+
+      {% if using_mock %}
+      <div style="background-color: rgba(192, 154, 70, 0.08); border: 1.5px solid rgba(192, 154, 70, 0.2); padding: 14px 20px; border-radius: var(--radius-sm); font-size: 13.5px; color: var(--ink-soft); font-weight: 600; display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+        <span style="color: var(--gold); font-size: 18px;">💡</span>
+        <span><strong>Demostración Activa con Datos Simulados:</strong> No has configurado la URL de respuestas reales aún. A continuación se muestran datos simulados de ejemplo para probar las búsquedas y el visualizador.</span>
+      </div>
+      {% endif %}
+
+      {% if survey_error %}
+      <div style="background-color: rgba(194, 14, 58, 0.06); border: 1.5px solid rgba(194, 14, 58, 0.15); padding: 14px 20px; border-radius: var(--radius-sm); font-size: 13.5px; color: var(--protea); font-weight: 600; display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+        <span>⚠</span>
+        <span>{{ survey_error }} (Mostrando datos simulados como alternativa).</span>
+      </div>
+      {% endif %}
+
+      <!-- Buscador de Respuestas -->
+      <div style="margin-bottom: 20px; display: flex; gap: 12px; align-items: center;">
+        <div style="position: relative; flex: 1; max-width: 400px;">
+          <input type="text" id="survey-search" onkeyup="filtrarEncuestas()" placeholder="Buscar por Nombre, RUT o Correo..." style="width: 100%; padding: 10px 14px 10px 40px; border: 1.5px solid var(--line); border-radius: var(--radius-sm); font-family: var(--font-body); background: var(--bg-card); color: var(--ink); font-size: 13.5px;">
+          <div style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--ink-muted); pointer-events: none;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </div>
+        </div>
+        <span id="survey-count-tag" style="font-size: 12.5px; font-family: var(--font-mono); color: var(--ink-muted); font-weight: 600;">
+          {{ survey_responses|length }} Respuestas Encontradas
+        </span>
+      </div>
+
+      <!-- Tabla de Respuestas Google Forms -->
+      <div style="overflow-x: auto;">
+        <table class="dashboard-table" style="width: 100%; border-collapse: collapse; text-align: left; min-width: 900px;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--line); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft);">
+              <th style="padding: 12px 16px; width: 60px;">ID</th>
+              <th style="padding: 12px 16px; width: 180px;">Marca Temporal</th>
+              <th style="padding: 12px 16px;">Nombre / Contacto</th>
+              <th style="padding: 12px 16px; width: 140px;">RUT</th>
+              <th style="padding: 12px 16px; width: 220px;">Correo Electrónico</th>
+              <th style="padding: 12px 16px; width: 140px; text-align: right;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="survey-table-body">
+            {% for resp in survey_responses %}
+            <tr style="border-bottom: 1px solid var(--line-light); font-size: 14px; transition: background 0.2s ease;" class="table-row-hover survey-row" data-nombre="{{ resp.nombre|lower }}" data-rut="{{ resp.rut|lower }}" data-email="{{ resp.email|lower }}">
+              <td style="padding: 14px 16px; font-family: var(--font-mono); font-weight: 700; color: var(--ink-muted);">#{{ resp.id }}</td>
+              <td style="padding: 14px 16px; font-size: 13px; color: var(--ink-soft);">{{ resp.timestamp }}</td>
+              <td style="padding: 14px 16px; font-weight: 700; color: var(--ink);">{{ resp.nombre|default:"Sin Nombre" }}</td>
+              <td style="padding: 14px 16px; font-family: var(--font-mono); font-size: 13px;">{{ resp.rut|default:"-" }}</td>
+              <td style="padding: 14px 16px; color: var(--ink-soft);">{{ resp.email|default:"-" }}</td>
+              <td style="padding: 14px 16px; text-align: right;">
+                <a href="{% url 'survey_detail' resp.id %}" class="btn btn-ghost" style="padding: 6px 12px; font-size: 12px; border-radius: var(--radius-sm); text-decoration: none; display: inline-block;">
+                  Ver Respuestas
+                </a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="6" style="padding: 32px 16px; text-align: center; color: var(--ink-muted); font-style: italic;">
+                No se encontraron respuestas asociadas en el archivo de Google Sheets.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- Modal Detalle de Respuestas Google Forms -->
+<div id="survey-detail-modal" class="modal-overlay" aria-hidden="true" style="padding: 20px;">
+  <div class="modal-box" style="max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative;">
+    <div class="modal-header-accent"></div>
+    <div class="modal-content" style="align-items: stretch; text-align: left; padding: 30px;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800; color: var(--ink); margin: 0;">Detalles de Evaluación Inicial</h2>
+          <p style="font-size: 13px; color: var(--ink-muted); font-family: var(--font-mono); margin-top: 4px;" id="survey-detail-meta">Respondido el --</p>
+        </div>
+        <button onclick="cerrarDetalleEncuesta()" style="background: none; border: none; font-size: 24px; color: var(--ink-muted); cursor: pointer; line-height: 1; padding: 0 4px;">&times;</button>
+      </div>
+      
+      <!-- Listado de Preguntas y Respuestas -->
+      <div id="survey-detail-qa-list" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; border-top: 1.5px solid var(--line); padding-top: 20px;">
+        <!-- Inyectado dinámicamente -->
+      </div>
+      
+      <div style="display: flex; justify-content: flex-end; border-top: 1.5px solid var(--line); padding-top: 20px;">
+        <button class="btn btn-secondary" onclick="cerrarDetalleEncuesta()" style="padding: 8px 20px; font-size: 13px; border-radius: var(--radius-sm);">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Serialización de Datos -->
+{{ survey_responses|json_script:"survey-responses-data" }}
+
+<script>
+  // Control de Configuración de Google Sheets
+  function toggleConfigSheet() {
+    const card = document.getElementById('config-sheet-card');
+    card.style.display = card.style.display === 'none' ? 'block' : 'none';
+  }
+
+  // Cargar respuestas de encuesta serializadas
+  const surveyResponses = JSON.parse(document.getElementById('survey-responses-data').textContent || '[]');
+
+  // Abrir Modal de Detalle
+  function verDetalleEncuesta(id) {
+    const resp = surveyResponses.find(r => r.id === id);
+    if (!resp) return;
+
+    document.getElementById('survey-detail-meta').textContent = "Respondido el " + resp.timestamp + " | Correo: " + (resp.email || "No indicado");
+    
+    const qaList = document.getElementById('survey-detail-qa-list');
+    qaList.innerHTML = '';
+
+    resp.detalle.forEach(qa => {
+      const item = document.createElement('div');
+      item.style.paddingBottom = "12px";
+      item.style.borderBottom = "1.5px solid var(--line-light)";
+      
+      const q = document.createElement('strong');
+      q.style.display = "block";
+      q.style.fontSize = "13px";
+      q.style.color = "var(--ink-soft)";
+      q.style.fontFamily = "var(--font-body)";
+      q.textContent = qa.pregunta;
+
+      const a = document.createElement('span');
+      a.style.display = "block";
+      a.style.fontSize = "14.5px";
+      a.style.color = "var(--ink)";
+      a.style.marginTop = "6px";
+      a.style.lineHeight = "1.5";
+      a.style.whiteSpace = "pre-wrap";
+      a.textContent = qa.respuesta || "— (Vacío)";
+
+      item.appendChild(q);
+      item.appendChild(a);
+      qaList.appendChild(item);
+    });
+
+    const modal = document.getElementById('survey-detail-modal');
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function cerrarDetalleEncuesta() {
+    const modal = document.getElementById('survey-detail-modal');
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  // Filtrado de Respuestas en Tiempo Real
+  function filtrarEncuestas() {
+    const searchVal = document.getElementById('survey-search').value.toLowerCase().trim();
+    const rows = document.querySelectorAll('#survey-table-body .survey-row');
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+      const nombre = row.getAttribute('data-nombre') || '';
+      const rut = row.getAttribute('data-rut') || '';
+      const email = row.getAttribute('data-email') || '';
+
+      if (nombre.includes(searchVal) || rut.includes(searchVal) || email.includes(searchVal)) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    document.getElementById('survey-count-tag').textContent = visibleCount + " Respuestas Encontradas";
+  }
+</script>
+
+<!-- Estilos específicos adicionales para el Dashboard -->
+<style>
+  .table-row-hover:hover {
+    background-color: var(--bg-surface);
+  }
+  .status-badge {
+    display: inline-block;
+    font-size: 11.5px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+  }
+  .status-badge[data-status="En Proceso"] {
+    background-color: rgba(94, 145, 16, 0.08);
+    color: var(--sage);
+    border: 1px solid rgba(94, 145, 16, 0.2);
+  }
+  .status-badge[data-status="Asignado"] {
+    background-color: rgba(194, 14, 58, 0.06);
+    color: var(--protea);
+    border: 1px solid rgba(194, 14, 58, 0.15);
+  }
+  .status-badge[data-status="Pendiente"] {
+    background-color: rgba(192, 154, 70, 0.08);
+    color: var(--gold);
+    border: 1px solid rgba(192, 154, 70, 0.25);
+  }
+  .text-invalid-btn:hover {
+    background-color: rgba(194, 14, 58, 0.08) !important;
+    color: var(--protea) !important;
+    border-color: var(--protea) !important;
+  }
+</style>
+
+{% endblock %}

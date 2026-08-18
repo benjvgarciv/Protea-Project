@@ -1,0 +1,76 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}{% if action == 'crear' %}Agregar Imagen Carrusel{% else %}Editar Imagen Carrusel{% endif %} — Área Privada{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow on-ink">Administración de Carrusel</span>
+    <h1>{% if action == 'crear' %}Agregar Nueva Imagen al Carrusel{% else %}Editar Leyenda/Orden de Imagen{% endif %}</h1>
+    <p>Agrega o modifica las fotos corporativas que se muestran con un efecto de transición por desvanecimiento en el inicio de la web.</p>
+  </div>
+</section>
+
+<section class="section" style="min-height: 50vh;">
+  <div class="wrap" style="max-width: 600px; margin: 0 auto;">
+    
+    <div class="contact-form" style="padding: 40px; background: var(--bg-card); border-radius: var(--radius-md); border: 1.5px solid var(--line); box-shadow: var(--shadow-sm);">
+      
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="field" style="margin-bottom: 20px;">
+          <label for="subtitulo">Subtítulo (Texto Verde superior)</label>
+          <input type="text" id="subtitulo" name="subtitulo" placeholder="Ej: NUESTRA TRAYECTORIA & PRESENCIA" required
+                 value="{% if action == 'editar' %}{{ slide.subtitulo }}{% else %}NUESTRA TRAYECTORIA & PRESENCIA{% endif %}">
+        </div>
+
+        <div class="field" style="margin-bottom: 20px;">
+          <label for="titulo">Título / Leyenda Descriptiva</label>
+          <input type="text" id="titulo" name="titulo" placeholder="Ej: Gabriela Bahamondes — Psicóloga" required
+                 value="{% if action == 'editar' %}{{ slide.titulo }}{% endif %}">
+        </div>
+        
+        <div class="field" style="margin-bottom: 20px;">
+          <label for="descripcion">Descripción Completa de la Imagen</label>
+          <textarea id="descripcion" name="descripcion" placeholder="Ej: Breve reseña, detalles o información complementaria de la foto" rows="4" style="width: 100%; padding: 12px; border: 1.5px solid var(--line); border-radius: var(--radius-sm); font-family: var(--font-body); background: var(--bg-surface); color: var(--ink);">{% if action == 'editar' %}{{ slide.descripcion }}{% endif %}</textarea>
+        </div>
+
+        <div class="field" style="margin-bottom: 20px;">
+          <label for="orden">Orden de Aparición (Número)</label>
+          <input type="number" id="orden" name="orden" placeholder="0" min="0" required
+                 value="{% if action == 'editar' %}{{ slide.orden }}{% else %}0{% endif %}">
+          <span style="font-size: 11px; color: var(--ink-muted); margin-top: 4px; display: block;">Las imágenes se ordenan de menor a mayor.</span>
+        </div>
+
+        {% if action == 'editar' and slide.imagen_path %}
+        <div class="field" style="margin-bottom: 20px;">
+          <label>Imagen Actual</label>
+          <div style="margin-top: 8px;">
+            <img src="{% static slide.imagen_path %}" alt="Actual" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line);">
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="field" style="margin-bottom: 24px;">
+          <label for="imagen_archivo">Archivo de Imagen ({% if action == 'crear' %}Requerido{% else %}Opcional{% endif %})</label>
+          <input type="file" id="imagen_archivo" name="imagen_archivo" accept="image/*" {% if action == 'crear' %}required{% endif %}
+                 style="padding: 10px; border: 1.5px dashed var(--line); background: var(--bg-surface); border-radius: var(--radius-sm); width: 100%;">
+          <span style="font-size: 11px; color: var(--ink-muted); margin-top: 4px; display: block;">Formatos recomendados: JPG o PNG. Tamaño ideal: 800x600 px o similar relación 4:3.</span>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 30px;">
+          <a href="{% url 'dashboard' %}" class="btn btn-ghost" style="padding: 10px 20px; font-size: 13.5px; border-radius: var(--radius-sm);">Cancelar</a>
+          <button type="submit" class="btn btn-primary" style="padding: 10px 24px; font-size: 13.5px; border-radius: var(--radius-sm);">
+            {% if action == 'crear' %}Agregar Imagen{% else %}Guardar Cambios{% endif %}
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

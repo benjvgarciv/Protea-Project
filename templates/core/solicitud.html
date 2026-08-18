@@ -1,0 +1,285 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Solicitud de Consultoría — Protea Consultoría{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow on-ink">Plataforma de Consultoría</span>
+    <h1>Formulario de Solicitud Especializada</h1>
+    <p>Ingresa tus datos y los de tu organización para iniciar el proceso de diagnóstico y asignación de consultores.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="contact-grid">
+      
+      <!-- Detalle de la Consultoría Seleccionada -->
+      <div class="contact-info selected-service-card">
+        <div class="field" style="margin-bottom: 24px;">
+          <label for="select-servicio">Consultoría Seleccionada</label>
+          <div class="switcher-wrapper">
+            <select id="select-servicio" class="service-switcher" onchange="window.location.href='?servicio=' + this.value">
+              {% for s in servicios %}
+              <option value="{{ s.codigo }}" {% if s.codigo == seleccionado.codigo %}selected{% endif %}>
+                [{{ s.codigo }}] {{ s.titulo }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="selected-service-info">
+          <span class="service-category-tag" style="margin-bottom: 12px; display: inline-flex;">{{ seleccionado.categoria }}</span>
+          <h3 style="font-size: 22px; color: var(--ink); margin-bottom: 12px; font-weight: 700;">{{ seleccionado.titulo }}</h3>
+          <p style="color: var(--ink-soft); font-size: 14.5px; line-height: 1.6; margin-bottom: 20px;">{{ seleccionado.detalle }}</p>
+
+          <div class="course-meta-row" style="margin-bottom: 24px;">
+            <div class="course-meta-item">
+              <svg class="meta-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+              </svg>
+              <span><strong>Duración:</strong> {{ seleccionado.duracion }}</span>
+            </div>
+            <div class="course-meta-item">
+              <svg class="meta-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <span><strong>Modalidad:</strong> {{ seleccionado.modalidad }}</span>
+            </div>
+          </div>
+
+          <div class="course-deliverables">
+            <h4 class="deliverables-title" style="font-size: 11px; text-transform: uppercase; color: var(--ink); margin-bottom: 12px; font-weight: 700;">Entregables del programa:</h4>
+            <ul class="deliverables-list">
+              {% for ent in seleccionado.entregables %}
+              <li>
+                <svg class="check-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+                <span style="font-size: 13.5px; color: var(--ink-soft);">{{ ent }}</span>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario de Solicitud Interactiva -->
+      <form class="contact-form" id="solicitud-form" onsubmit="procesarSolicitud(event)">
+        {% csrf_token %}
+        <input type="hidden" id="servicio-id" value="{{ seleccionado.codigo }}">
+        <input type="hidden" id="servicio-titulo" value="{{ seleccionado.titulo }}">
+
+        <div class="field">
+          <label for="nombre">Nombre Completo</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Juan Pérez G." required minlength="4">
+        </div>
+
+        <div class="field">
+          <label for="rut">RUT de la Organización o Solicitante</label>
+          <div class="input-validated-wrapper">
+            <input type="text" id="rut" name="rut" placeholder="12.345.678-K" required maxlength="12">
+            <span class="validation-status-icon" id="rut-status-icon"></span>
+          </div>
+          <div class="rut-feedback" id="rut-feedback-msg">Escribe un RUT válido (con puntos y guión).</div>
+        </div>
+
+        <div class="field">
+          <label for="email">Correo Electrónico Corporativo</label>
+          <input type="email" id="email" name="email" placeholder="contacto@empresa.cl" required>
+        </div>
+
+        <div class="field">
+          <label for="telefono">Teléfono de Contacto</label>
+          <input type="tel" id="telefono" name="telefono" placeholder="+56 9 1234 5678" required pattern="(\+?56)?\s?9\s?[0-9]{4}\s?[0-9]{4}">
+          <span style="font-size: 11px; color: var(--ink-muted); margin-top: 4px; display: block;">Formato: +56 9 XXXX XXXX</span>
+        </div>
+
+        <div class="field">
+          <label for="organizacion">Nombre de la Organización / Razón Social</label>
+          <input type="text" id="organizacion" name="organizacion" placeholder="Mi Empresa S.A." required>
+        </div>
+
+        <div class="field">
+          <label for="mensaje">Detalles de la Solicitud / Comentarios</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Indícanos número de participantes, plazos estimados o particularidades de tu faena..." required minlength="10"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submit-btn" style="width: 100%; justify-content: center; margin-top: 10px;">
+          <span>Enviar Solicitud de Consultoría</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-7.85-1.42 1.42L16.86 11H5v2z"/></svg>
+        </button>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+
+
+<script>
+  // Script para formateo y validación de RUT en tiempo real
+  const rutInput = document.getElementById('rut');
+  const rutFeedback = document.getElementById('rut-feedback-msg');
+  const rutIcon = document.getElementById('rut-status-icon');
+  const submitBtn = document.getElementById('submit-btn');
+
+  rutInput.addEventListener('input', function(e) {
+    let value = e.target.value;
+    
+    // Limpiar caracteres no permitidos (solo números y K)
+    let limpio = value.replace(/[^0-9kK]/g, '').toUpperCase();
+    
+    // Formatear RUT dinámicamente
+    let formateado = "";
+    if (limpio.length > 0) {
+      const dv = limpio.slice(-1);
+      const cuerpo = limpio.slice(0, -1);
+      
+      // Aplicar puntos al cuerpo
+      if (cuerpo.length > 0) {
+        let cuerpoFormateado = "";
+        let count = 0;
+        for (let i = cuerpo.length - 1; i >= 0; i--) {
+          cuerpoFormateado = cuerpo.charAt(i) + cuerpoFormateado;
+          count++;
+          if (count === 3 && i > 0) {
+            cuerpoFormateado = "." + cuerpoFormateado;
+            count = 0;
+          }
+        }
+        formateado = cuerpoFormateado + "-" + dv;
+      } else {
+        formateado = dv;
+      }
+    }
+    
+    e.target.value = formateado;
+    
+    // Validar RUT
+    if (formateado.length >= 8) {
+      if (validaRutChileno(formateado)) {
+        rutInput.classList.remove('input-invalid');
+        rutInput.classList.add('input-valid');
+        rutFeedback.textContent = "RUT válido";
+        rutFeedback.className = "rut-feedback text-valid";
+        rutIcon.innerHTML = '✔';
+        rutIcon.className = "validation-status-icon valid";
+        submitBtn.disabled = false;
+      } else {
+        rutInput.classList.remove('input-valid');
+        rutInput.classList.add('input-invalid');
+        rutFeedback.textContent = "El dígito verificador del RUT es incorrecto.";
+        rutFeedback.className = "rut-feedback text-invalid";
+        rutIcon.innerHTML = '✘';
+        rutIcon.className = "validation-status-icon invalid";
+        submitBtn.disabled = true;
+      }
+    } else if (formateado.length > 0) {
+      rutInput.classList.remove('input-valid');
+      rutInput.classList.remove('input-invalid');
+      rutFeedback.textContent = "El RUT es demasiado corto.";
+      rutFeedback.className = "rut-feedback text-invalid";
+      rutIcon.innerHTML = '';
+      submitBtn.disabled = true;
+    } else {
+      rutInput.classList.remove('input-valid');
+      rutInput.classList.remove('input-invalid');
+      rutFeedback.textContent = "Escribe un RUT válido (con puntos y guión).";
+      rutFeedback.className = "rut-feedback";
+      rutIcon.innerHTML = '';
+      submitBtn.disabled = false;
+    }
+  });
+
+  // Algoritmo de validación de RUT chileno (módulo 11)
+  function validaRutChileno(rutCompleto) {
+    if (!rutCompleto) return false;
+    
+    // Limpiar caracteres
+    const rutLimpio = rutCompleto.replace(/[^0-9kK]/g, '').toUpperCase();
+    if (rutLimpio.length < 8) return false;
+    
+    const cuerpo = rutLimpio.slice(0, -1);
+    const dv = rutLimpio.slice(-1);
+    
+    let suma = 0;
+    let multiplo = 2;
+    
+    for (let i = cuerpo.length - 1; i >= 0; i--) {
+      suma += parseInt(cuerpo.charAt(i), 10) * multiplo;
+      multiplo = multiplo < 7 ? multiplo + 1 : 2;
+    }
+    
+    const dvEsperado = 11 - (suma % 11);
+    let dvCalculado;
+    
+    if (dvEsperado === 11) {
+      dvCalculado = '0';
+    } else if (dvEsperado === 10) {
+      dvCalculado = 'K';
+    } else {
+      dvCalculado = dvEsperado.toString();
+    }
+    
+    return dv === dvCalculado;
+  }
+
+  // Procesamiento del Formulario y Muestra de Modal de Éxito
+  function procesarSolicitud(e) {
+    e.preventDefault();
+    
+    const nombre = document.getElementById('nombre').value;
+    const rut = document.getElementById('rut').value;
+    const email = document.getElementById('email').value;
+    const telefono = document.getElementById('telefono').value;
+    const organizacion = document.getElementById('organizacion').value;
+    const mensaje = document.getElementById('mensaje').value;
+    const servicioId = document.getElementById('servicio-id').value;
+
+    // Validar RUT final antes de abrir modal
+    if (!validaRutChileno(rut)) {
+      alert("Por favor ingresa un RUT válido.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+    formData.append('nombre', nombre);
+    formData.append('rut', rut);
+    formData.append('email', email);
+    formData.append('telefono', telefono);
+    formData.append('organizacion', organizacion);
+    formData.append('mensaje', mensaje);
+    formData.append('servicio_id', servicioId);
+
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.querySelector('span').textContent = "Procesando...";
+
+    fetch("{% url 'solicitud' %}", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        window.location.href = "{% url 'solicitud_exito' %}?ticket=" + encodeURIComponent(data.ticket);
+      } else {
+        alert("Error al procesar la solicitud: " + (data.error || "Intente de nuevo."));
+        submitBtn.disabled = false;
+        submitBtn.querySelector('span').textContent = "Enviar Solicitud de Consultoría";
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Hubo un problema de conexión al guardar su solicitud.");
+      submitBtn.disabled = false;
+      submitBtn.querySelector('span').textContent = "Enviar Solicitud de Consultoría";
+    });
+  }
+</script>
+
+{% endblock %}

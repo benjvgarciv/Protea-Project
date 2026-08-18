@@ -1,0 +1,195 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Programas de Consultoría & Diagnósticos — Protea Consultoría{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow on-ink">Nuestras Soluciones</span>
+    <h1>Líneas de Negocio y Áreas de Experiencia</h1>
+    <p>Ofrecemos consultorías especializadas, salud ocupacional y capacitaciones certificadas (OTEC) orientadas a potenciar la gestión de personas y el bienestar de los trabajadores.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 30px;">
+  <div class="wrap">
+    
+    <!-- Contenedor del Buscador y Filtros -->
+    <div style="background: var(--bg-card); border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 40px;">
+      <form method="get" action="{% url 'servicios' %}" id="search-filter-form" style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- Buscador de Texto -->
+        <div style="display: flex; gap: 12px; width: 100%;">
+          <div style="position: relative; flex-grow: 1;">
+            <input type="text" name="q" value="{{ query }}" placeholder="Buscar por título, código o palabras clave..." 
+                   style="width: 100%; padding: 14px 20px 14px 44px; border: 1.5px solid var(--line); border-radius: var(--radius-sm); font-size: 15px; font-family: var(--font-body); background-color: var(--bg-surface); color: var(--ink);">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                 style="position: absolute; left: 16px; top: 16px; color: var(--ink-soft);">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <button type="submit" class="btn btn-primary" style="padding: 0 24px; font-size: 14px; text-transform: none; border-radius: var(--radius-sm); letter-spacing: normal; font-family: var(--font-body);">
+            <span>Buscar</span>
+          </button>
+        </div>
+
+        <!-- Categorías (Filtros de Píldoras) -->
+        <div>
+          <span style="display: block; font-size: 11.5px; text-transform: uppercase; font-family: var(--font-body); color: var(--ink-soft); font-weight: 700; letter-spacing: 0.08em; margin-bottom: 12px;">Filtrar por Categoría:</span>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <!-- Opción: Todos -->
+            <a href="?q={{ query }}&categoria=" 
+               style="text-decoration: none; padding: 8px 16px; font-size: 13.5px; border-radius: var(--radius-pill); font-weight: 600; border: 1.5px solid {% if not categoria_selected %}var(--protea){% else %}var(--line){% endif %}; background-color: {% if not categoria_selected %}var(--bg-white){% else %}transparent{% endif %}; color: {% if not categoria_selected %}var(--protea){% else %}var(--ink-soft){% endif %}; transition: all 0.2s;"
+               class="category-pill-btn">
+              Todos
+            </a>
+            <!-- Opción: Categorías dinámicas -->
+            {% for cat in categorias %}
+            <a href="?q={{ query }}&categoria={{ cat }}" 
+               style="text-decoration: none; padding: 8px 16px; font-size: 13.5px; border-radius: var(--radius-pill); font-weight: 600; border: 1.5px solid {% if categoria_selected == cat %}var(--protea){% else %}var(--line){% endif %}; background-color: {% if categoria_selected == cat %}var(--bg-white){% else %}transparent{% endif %}; color: {% if categoria_selected == cat %}var(--protea){% else %}var(--ink-soft){% endif %}; transition: all 0.2s;"
+               class="category-pill-btn">
+              {{ cat }}
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Resultados / Listado de Cursos -->
+    <div class="courses-grid">
+      {% for s in servicios %}
+      <article class="course-card">
+        <!-- Marca de agua artística y sutil de Protea (no invasiva) -->
+        <div class="card-protea-watermark" aria-hidden="true">
+          <img src="{% static 'img/protea_watermark_clean.png' %}" alt="" class="card-protea-img">
+        </div>
+
+        <div class="course-card-header">
+          <div class="course-badges">
+            <span class="course-category">{{ s.categoria }}</span>
+            <span class="course-code">{{ s.codigo }}</span>
+          </div>
+          <h3 class="course-title">{{ s.titulo }}</h3>
+          <p class="course-summary">{{ s.resumen }}</p>
+        </div>
+
+        <!-- Módulo de Encuesta Diagnóstica Incluida -->
+        <div class="course-survey-box">
+          <div class="survey-box-head">
+            <div class="survey-icon-title">
+              <svg class="survey-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+              <span class="survey-tag">Diagnóstico por Encuesta</span>
+            </div>
+            <span class="survey-count">{{ s.encuesta_preguntas }}</span>
+          </div>
+          <div class="survey-name">{{ s.encuesta_nombre }}</div>
+          <p class="course-detail">{{ s.detalle }}</p>
+        </div>
+
+        <!-- Metadatos de Duración y Modalidad -->
+        <div class="course-meta-row">
+          <div class="course-meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+            </svg>
+            <span><strong>Duración:</strong> {{ s.duracion }}</span>
+          </div>
+          <div class="course-meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <span><strong>Modalidad:</strong> {{ s.modalidad }}</span>
+          </div>
+        </div>
+
+        <!-- Entregables del Programa -->
+        <div class="course-deliverables">
+          <h4 class="deliverables-title">El programa incluye:</h4>
+          <ul class="deliverables-list">
+            {% for ent in s.entregables %}
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+              </svg>
+              <span>{{ ent }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Pie de la Tarjeta con CTA -->
+        <div class="course-card-footer">
+          <a href="{% url 'solicitud' %}?servicio={{ s.codigo }}" class="btn btn-primary btn-course">
+            <span>Solicitar Consultoría</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-7.85-1.42 1.42L16.86 11H5v2z"/></svg>
+          </a>
+        </div>
+      </article>
+      {% empty %}
+      <div style="grid-column: 1 / -1; padding: 60px 20px; text-align: center; background: var(--bg-card); border: 1.5px dashed var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="var(--ink-soft)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 16px; opacity: 0.7;">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <h3 style="font-size: 18px; color: var(--ink); margin-bottom: 8px;">No se encontraron servicios</h3>
+        <p style="font-size: 14.5px; color: var(--ink-soft); max-width: 480px; margin: 0 auto;">Intenta buscar con otros términos o selecciona una categoría diferente en el filtro superior.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Paginación -->
+    {% if servicios.has_other_pages %}
+    <div style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 48px;">
+      
+      <!-- Botón Anterior -->
+      {% if servicios.has_previous %}
+        <a href="?page={{ servicios.previous_page_number }}&q={{ query }}&categoria={{ categoria_selected }}" 
+           class="btn btn-secondary" style="padding: 10px 20px; font-size: 13px; border-radius: var(--radius-sm); font-family: var(--font-body); display: flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+          <span>Anterior</span>
+        </a>
+      {% else %}
+        <button class="btn btn-secondary" style="padding: 10px 20px; font-size: 13px; border-radius: var(--radius-sm); font-family: var(--font-body); display: flex; align-items: center; gap: 8px; opacity: 0.4; cursor: not-allowed;" disabled>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+          <span>Anterior</span>
+        </button>
+      {% endif %}
+
+      <!-- Indicador de Página -->
+      <span style="font-size: 14px; font-weight: 600; color: var(--ink-soft); font-family: var(--font-body);">
+        Página {{ servicios.number }} de {{ servicios.paginator.num_pages }}
+      </span>
+
+      <!-- Botón Siguiente -->
+      {% if servicios.has_next %}
+        <a href="?page={{ servicios.next_page_number }}&q={{ query }}&categoria={{ categoria_selected }}" 
+           class="btn btn-secondary" style="padding: 10px 20px; font-size: 13px; border-radius: var(--radius-sm); font-family: var(--font-body); display: flex; align-items: center; gap: 8px;">
+          <span>Siguiente</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </a>
+      {% else %}
+        <button class="btn btn-secondary" style="padding: 10px 20px; font-size: 13px; border-radius: var(--radius-sm); font-family: var(--font-body); display: flex; align-items: center; gap: 8px; opacity: 0.4; cursor: not-allowed;" disabled>
+          <span>Siguiente</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+      {% endif %}
+
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<!-- Efectos interactivos para las píldoras de categorías -->
+<style>
+  .category-pill-btn:hover {
+    border-color: var(--protea) !important;
+    color: var(--protea) !important;
+    background-color: rgba(194, 14, 58, 0.03) !important;
+  }
+</style>
+
+{% endblock %}
