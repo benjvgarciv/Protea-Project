@@ -2,17 +2,22 @@
 {% block title %}Contacto — Protea Consultoría{% endblock %}
 {% block content %}
 
-<section class="page-hero">
-  <div class="wrap">
+<section class="contact-hero">
+  <div class="wrap contact-hero-grid">
     <span class="eyebrow on-ink">Contacto</span>
-    <h1>Conversemos sobre el problema real</h1>
-    <p>Una primera conversación de 30 minutos, sin costo, para entender si podemos ayudar.</p>
+    <div class="contact-hero-copy">
+      <h1>Conversemos sobre el problema real</h1>
+      <p>Una primera conversación de 30 minutos, sin costo, para entender si podemos ayudar.</p>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="wrap contact-grid">
-    <div class="contact-info">
+<section class="section contact-page-section">
+  <div class="wrap contact-layout">
+    <div class="contact-info contact-info-redesign">
+      <span class="contact-panel-kicker">Hablemos</span>
+      <h2>Estamos listos para escucharte.</h2>
+      <p class="contact-info-intro">El primer paso es poner sobre la mesa lo que tu organización necesita resolver.</p>
       <dl>
         <dt>Correo</dt>
         <dd><a href="mailto:proteaconsultores@gmail.com">proteaconsultores@gmail.com</a></dd>
@@ -24,7 +29,11 @@
         <dd>Lunes a viernes, 9:00 a 18:30</dd>
       </dl>
     </div>
-    <form class="contact-form" method="post" action="#">
+    <form class="contact-form contact-form-redesign" method="post" action="#">
+      <div class="contact-form-heading">
+        <span class="contact-panel-kicker">Formulario de contacto</span>
+        <h2>Cuéntanos dónde intervenir.</h2>
+      </div>
       <div class="field">
         <label for="nombre">Nombre</label>
         <input type="text" id="nombre" name="nombre" autocomplete="name" required>

@@ -3,16 +3,21 @@
 {% block title %}Nosotros — Protea Consultoría{% endblock %}
 {% block content %}
 
-<section class="page-hero">
-  <div class="wrap">
-    <span class="eyebrow on-ink">Nosotros</span>
-    <h1>Fundación y Trayectoria de Consultora Protea Ltda.</h1>
-    <p>Somos una firma chilena de recursos humanos y desarrollo organizacional fundada en mayo de 2015 en Los Ángeles, Región del Biobío. Operamos bajo el liderazgo de nuestra fundadora, la psicóloga organizacional Gabriela Bahamondes Valenzuela, con un fuerte compromiso por generar transformaciones que perduran en el tiempo.</p>
+<section class="empresa-hero">
+  <div class="wrap empresa-hero-grid">
+    <div>
+      <span class="eyebrow on-ink">Nosotros</span>
+      <h1>Fundación y Trayectoria de Consultora Protea Ltda.</h1>
+    </div>
+    <div class="empresa-hero-note">
+      <span class="empresa-note-mark">2015</span>
+      <p>Somos una firma chilena de recursos humanos y desarrollo organizacional fundada en mayo de 2015 en Los Ángeles, Región del Biobío. Operamos bajo el liderazgo de nuestra fundadora, la psicóloga organizacional Gabriela Bahamondes Valenzuela, con un fuerte compromiso por generar transformaciones que perduran en el tiempo.</p>
+    </div>
   </div>
 </section>
 
 <!-- Sección Acróstico PROTEA -->
-<section class="section acrostic-section" id="esencia-protea">
+<section class="section empresa-essence" id="esencia-protea">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Nuestra Esencia</span>
@@ -20,7 +25,7 @@
       <p>Utilizamos la flor protea como símbolo de nuestra identidad debido a su resiliencia y su extraordinaria capacidad de adaptación en entornos altamente cambiantes. Nuestro nombre sintetiza los cuatro pilares bajo los cuales potenciamos a las organizaciones:</p>
     </div>
 
-    <div class="acrostic-container">
+    <div class="acrostic-container empresa-acrostic-grid">
       <!-- Fila PRO -->
       <div class="acrostic-row">
         <div class="acrostic-letter-block">
@@ -73,9 +78,9 @@
 </section>
 
 <!-- Sección de Equipo / Consultores -->
-<section class="section team-section">
+<section class="section team-section empresa-team-section" id="equipo">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head empresa-section-head">
       <span class="eyebrow">Nuestro Equipo</span>
       <h2>Experiencia y criterio al servicio de su organización</h2>
       <p>Profesionales formados en las mejores instituciones, con probada trayectoria liderando proyectos estratégicos de alto impacto.</p>
@@ -125,13 +130,13 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section empresa-values-section">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head empresa-section-head">
       <span class="eyebrow">Cómo pensamos</span>
       <h2>Tres principios que no negociamos</h2>
     </div>
-    <div class="valores-list">
+    <div class="valores-list empresa-values-list">
       {% for v in valores %}
       <div class="valor-row">
         <h3>{{ v.nombre }}</h3>
@@ -143,14 +148,14 @@
 </section>
 
 <!-- Cifras de Trayectoria e Impacto -->
-<section class="section metrics-section">
+<section class="section metrics-section empresa-metrics-section" id="trayectoria">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head empresa-section-head">
       <span class="eyebrow">Trayectoria</span>
       <h2>Resultados tangibles y compromiso sostenido</h2>
     </div>
     <div class="metrics-grid">
-      {% for c in cifras %}
+      {% for c in cifras|slice:":2" %}
       <div class="metric-card">
         <div class="metric-valor">{{ c.valor }}</div>
         <div class="metric-etiqueta">{{ c.etiqueta }}</div>

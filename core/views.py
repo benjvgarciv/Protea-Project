@@ -96,7 +96,7 @@ ETAPAS = [
 
 CIFRAS = [
     {"valor": "11", "etiqueta": "años de trayectoria"},
-    {"valor": "120+", "etiqueta": "organizaciones asesoradas"},
+    {"valor": "15", "etiqueta": "organizaciones asesoradas"},
     {"valor": "6", "etiqueta": "países en la región"},
     {"valor": "94%", "etiqueta": "clientes que continúan con nosotros"},
 ]

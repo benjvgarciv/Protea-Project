@@ -3,498 +3,146 @@
 {% block title %}Protea Consultoría — estrategia con raíces reales{% endblock %}
 {% block content %}
 
-<style>
-  @media (max-width: 900px) {
-    .hero-carousel-section .carousel-block {
-      flex-direction: column-reverse !important;
-      gap: 24px !important;
-      min-height: auto !important;
-    }
-    .hero-carousel-section .hero-carousel-container {
-      width: 100% !important;
-      height: 300px !important;
-      flex: none !important;
-    }
-    .hero-carousel-section .carousel-texts-wrapper {
-      text-align: center !important;
-    }
-    .hero-carousel-section .carousel-text-slide h2 {
-      font-size: 28px !important;
-    }
-    .hero-carousel-section .carousel-texts-wrapper > div:last-child {
-      justify-content: center !important;
-      margin-top: 24px !important;
-    }
-    .strategy-intro-grid {
-      grid-template-columns: 1fr !important;
-      gap: 40px !important;
-    }
-  }
-</style>
-
-<section class="hero-carousel-section" style="background: transparent; padding: 20px 0; position: relative;">
+<section class="public-hero">
   <div class="wrap">
-    
-    <!-- Contenedor del Carrusel de una sola sección -->
-    <div class="hero-carousel-container" style="position: relative; width: 100%; height: 380px; border-radius: var(--radius-md); overflow: hidden; border: 1.5px solid var(--line); box-shadow: var(--shadow-md);">
-      
-      <!-- Track de las Diapositivas -->
-      <div class="hero-carousel-track" style="width: 100%; height: 100%; position: relative; background: #e5e3df;">
-        {% for slide in carousel %}
-        <div class="hero-slide {% if forloop.first %}active{% endif %}" style="position: absolute; inset: 0; opacity: {% if forloop.first %}1{% else %}0{% endif %}; transition: opacity 0.6s ease; z-index: {% if forloop.first %}2{% else %}0{% endif %}; display: block;">
-          
-          <!-- Imagen de fondo -->
-          <img src="{% static slide.imagen_path %}" alt="Protea - {{ slide.titulo }}" style="width: 100%; height: 100%; object-fit: cover;">
-          
-          <!-- Overlay de gradiente oscuro completo para asegurar contraste en toda la imagen -->
-          <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.05) 50%, transparent 100%); z-index: 2;"></div>
-          
-          <!-- Barra de texto integrada al pie de la imagen (Glassmorphism de ancho completo) -->
-          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 40px; color: #ffffff; z-index: 3; display: flex; flex-direction: column; gap: 6px; background: rgba(0, 0, 0, 0.42); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1.5px solid rgba(255, 255, 255, 0.12);">
-            <span style="font-family: var(--font-body); font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--sage); font-weight: 700;">{% if slide.subtitulo %}{{ slide.subtitulo }}{% else %}Nuestra Trayectoria & Presencia{% endif %}</span>
-            <h2 style="font-size: 24px; font-weight: 800; color: #ffffff; line-height: 1.25; margin: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">{{ slide.titulo }}</h2>
-            <p style="font-size: 13.5px; color: rgba(255, 255, 255, 0.85); line-height: 1.5; margin: 0; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
-              {% if slide.descripcion %}{{ slide.descripcion }}{% else %}Descubre más sobre nuestro trabajo y compromiso con el desarrollo organizacional.{% endif %}
-            </p>
-          </div>
+    <span class="eyebrow">Consultora Protea</span>
+    <h1>El desarrollo de las organizaciones comienza por las personas.</h1>
+    <p>Estrategia, gestión de personas, capacitación y salud ocupacional para organizaciones que necesitan avanzar con bases reales.</p>
+    <a href="{% url 'contacto' %}" class="btn btn-primary">Conversemos sobre tu organización</a>
+  </div>
+</section>
 
-        </div>
-        {% endfor %}
-      </div>
-
-      <!-- Controles de navegación de flechas -->
-      <button class="hero-carousel-btn prev-btn" aria-label="Imagen anterior" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.3); border: 1.5px solid rgba(255,255,255,0.2); color: #ffffff; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; z-index: 4; font-size: 18px;" onmouseover="this.style.background='var(--protea)'; this.style.borderColor='var(--protea)';" onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.borderColor='rgba(255,255,255,0.2)';">❮</button>
-      <button class="hero-carousel-btn next-btn" aria-label="Siguiente imagen" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.3); border: 1.5px solid rgba(255,255,255,0.2); color: #ffffff; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; z-index: 4; font-size: 18px;" onmouseover="this.style.background='var(--protea)'; this.style.borderColor='var(--protea)';" onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.borderColor='rgba(255,255,255,0.2)';">❯</button>
-      
+<section class="public-section">
+  <div class="wrap public-split">
+    <div>
+      {% if carousel %}
+        <img src="{% static carousel.0.imagen_path %}" alt="{{ carousel.0.titulo }}" class="public-image">
+      {% else %}
+        <img src="{% static 'img/workshop.jpg' %}" alt="Taller de trabajo" class="public-image">
+      {% endif %}
     </div>
-
-    <!-- Indicadores de puntos inferiores en el centro (fuera de la foto) -->
-    <div class="hero-carousel-dots" style="position: static !important; transform: none !important; display: flex; gap: 8px; justify-content: center; margin: 28px auto 0 auto !important; width: fit-content;">
-      {% for slide in carousel %}
-      <span class="dot {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.counter0 }}" style="width: 8px; height: 8px; border-radius: 50%; background: {% if forloop.first %}var(--protea){% else %}rgba(0,0,0,0.18){% endif %}; display: inline-block; cursor: pointer; transition: all 0.2s;"></span>
-      {% endfor %}
+    <div class="public-copy">
+      <div class="public-section-head">
+        <span class="eyebrow">Nuestra mirada</span>
+        <h2>Consultoría aplicada, cercana y con resultados.</h2>
+      </div>
+      <p>Somos una firma chilena de recursos humanos y desarrollo organizacional fundada en mayo de 2015 en Los Ángeles, Región del Biobío.</p>
+      <p>Acompañamos a empresas en procesos de transformación que buscan mejorar la gestión, fortalecer sus equipos y cuidar la calidad de vida de las personas.</p>
+      <a href="{% url 'nosotros' %}" class="text-link">Conoce nuestra historia <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
 
-<section class="section strategy-intro-section" style="background-color: var(--bg-surface); padding: 80px 0; position: relative; overflow: hidden; border-bottom: 1.5px solid var(--line);">
-  <!-- Marca de agua artística y sutil de Protea (no invasiva) -->
-  <div style="position: absolute; right: -50px; bottom: -50px; width: 450px; opacity: 0.05; pointer-events: none; transform: rotate(15deg);" aria-hidden="true">
-    <img src="{% static 'img/protea_watermark_clean.png' %}" alt="" style="width: 100%; height: auto;">
-  </div>
-
+<section class="public-section location-section">
   <div class="wrap">
-    <div style="max-width: 800px; margin: 0 auto; text-align: center;" class="strategy-intro-grid">
-      <div>
-        <span class="eyebrow" style="color: var(--protea); font-weight: 700; font-family: var(--font-body); letter-spacing: 0.05em; text-transform: uppercase; font-size: 13.5px; display: block; margin-bottom: 8px;">Consultoría Estratégica</span>
-        <h2 style="font-size: 42px; font-weight: 800; color: var(--ink); line-height: 1.15; margin: 16px 0 24px 0;">La estrategia también <em style="color: var(--protea); font-style: italic;">florece</em> después del fuego.</h2>
-        <p style="font-size: 17.5px; color: var(--ink-soft); line-height: 1.7; margin-bottom: 32px;">
-          Potenciamos la gestión de personas, capacitación laboral (OTEC) y salud ocupacional bajo una perspectiva de resiliencia y adaptabilidad organizacional, construyendo bases sólidas para el crecimiento sostenible en la zona centro-sur de Chile.
-        </p>
-        <div class="cta-row" style="display: flex; gap: 16px; justify-content: center;">
-          <a href="{% url 'contacto' %}" class="btn btn-primary" style="padding: 14px 28px; font-size: 14.5px; border-radius: var(--radius-sm);">Conversemos</a>
-          <a href="{% url 'servicios' %}" class="btn btn-secondary" style="padding: 14px 28px; font-size: 14.5px; border-radius: var(--radius-sm);">Ver Servicios</a>
+    <div class="public-section-head">
+      <span class="eyebrow">Dónde encontrarnos</span>
+      <h2>Una conversación también puede comenzar en nuestra oficina.</h2>
+      <p>Visítanos en Los Ángeles, Región del Biobío, o coordina una reunión online con nuestro equipo.</p>
+    </div>
+    <div class="location-grid">
+      <div class="location-details">
+        <span class="location-kicker">Oficina central</span>
+        <h3>Protea Consultoría</h3>
+        <p>Bernardo O'Higgins 775,<br>Los Ángeles, Región del Biobío, Chile.</p>
+        <a href="tel:+56967787828" class="text-link">+56 9 6778 7828 <span aria-hidden="true">→</span></a>
+        <div class="location-actions">
+          <a href="https://maps.app.goo.gl/LqYMDWzcrcqmpQmy9" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Abrir en Google Maps</a>
+          <a href="https://waze.com/ul?ll=-37.4827987,-72.3520314&navigate=yes" target="_blank" rel="noopener noreferrer" class="text-link">Abrir en Waze <span aria-hidden="true">→</span></a>
         </div>
+      </div>
+      <div class="map-frame">
+        <div id="mapa-protea" aria-label="Mapa de ubicación de Protea Consultoría"></div>
       </div>
     </div>
   </div>
 </section>
 
-
-<style>
-  @media (max-width: 900px) {
-    .map-section .contact-grid {
-      grid-template-columns: 1fr !important;
-    }
-  }
-</style>
-
-<section class="section map-section" id="ubicacion" style="background-color: var(--bg-surface); padding-bottom: 50px;">
+<section class="public-section opiniones-section">
   <div class="wrap">
-    <div class="section-head" style="margin-bottom: 40px;">
-      <span class="eyebrow">Contacto & Presencia</span>
-      <h2>Nuestra Oficina Principal</h2>
-      <p>Visítanos o comunícate directamente para coordinar reuniones, capacitaciones (OTEC) y diagnósticos organizacionales.</p>
+    <div class="public-section-head opiniones-heading">
+      <span class="eyebrow">Lo que dicen nuestros clientes</span>
+      <h2>Experiencias que hablan del trabajo compartido.</h2>
     </div>
-
-    <div class="contact-grid" style="grid-template-columns: 1fr 1fr; gap: 40px; align-items: stretch; display: grid;">
-      <!-- Lado izquierdo: Información y enlaces de GPS -->
-      <div style="background: var(--bg-card); border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
-        <div>
-          <h3 style="font-size: 22px; color: var(--ink); margin-bottom: 24px; font-weight: 700; border-bottom: 2px solid var(--line); padding-bottom: 12px;">Oficina Central</h3>
-          
-          <div style="display: flex; flex-direction: column; gap: 20px; margin-bottom: 32px;">
-            <!-- Dirección -->
-            <div style="display: flex; gap: 16px; align-items: flex-start;">
-              <div style="color: var(--protea); flex-shrink: 0; margin-top: 2px;">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              </div>
-              <div>
-                <span style="display: block; font-size: 12px; text-transform: uppercase; font-family: var(--font-body); color: var(--ink-soft); font-weight: 700; letter-spacing: 0.08em;">Ubicación</span>
-                <span style="font-size: 14.5px; color: var(--ink); font-weight: 500; line-height: 1.6; margin-top: 4px; display: block;">
-                  Bernardo O'Higgins 775,<br>
-                  Los Ángeles, Región del Biobío, Chile.
-                </span>
-              </div>
-            </div>
-
-            <!-- Teléfono -->
-            <div style="display: flex; gap: 16px; align-items: flex-start;">
-              <div style="color: var(--sage); flex-shrink: 0; margin-top: 2px;">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              </div>
-              <div>
-                <span style="display: block; font-size: 12px; text-transform: uppercase; font-family: var(--font-body); color: var(--ink-soft); font-weight: 700; letter-spacing: 0.08em;">Teléfono</span>
-                <a href="tel:+56967787828" style="font-size: 14.5px; color: var(--ink); font-weight: 500; text-decoration: none; margin-top: 4px; display: block; transition: color 0.2s;" onmouseover="this.style.color='var(--protea)'" onmouseout="this.style.color='var(--ink)'">+56 9 6778 7828</a>
-              </div>
-            </div>
-
-            <!-- Horarios -->
-            <div style="display: flex; gap: 16px; align-items: flex-start;">
-              <div style="color: var(--gold); flex-shrink: 0; margin-top: 2px;">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <div>
-                <span style="display: block; font-size: 12px; text-transform: uppercase; font-family: var(--font-body); color: var(--ink-soft); font-weight: 700; letter-spacing: 0.08em;">Horario de Atención</span>
-                <span style="font-size: 14.5px; color: var(--ink); font-weight: 500; line-height: 1.5; margin-top: 4px; display: block;">
-                  Lunes a Viernes<br>
-                  08:30 a. m. – 01:30 p. m.
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h4 style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 16px; font-weight: 700; font-family: var(--font-body);">Abrir Ruta de Navegación:</h4>
-          
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-            <!-- Google Maps Link -->
-            <a href="https://maps.app.goo.gl/LqYMDWzcrcqmpQmy9" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="justify-content: center; gap: 8px; font-size: 12.5px; padding: 10px; border-radius: var(--radius-sm); font-family: var(--font-body);">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color: #4285F4;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-              <span>Google</span>
-            </a>
-
-            <!-- Waze Link -->
-            <a href="https://waze.com/ul?ll=-37.4827987,-72.3520314&navigate=yes" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="justify-content: center; gap: 8px; font-size: 12.5px; padding: 10px; border-radius: var(--radius-sm); font-family: var(--font-body);">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color: #33CCFF;"><path d="M20.2 11.2c-.3 0-.6.1-.8.3-.4-.5-1.1-.9-1.8-.9-1 0-1.8.8-1.8 1.8v.2c-1.1-.6-2.5-1-4-1-3.6 0-6.6 2.5-7.3 5.9C3.1 18.2 2 19.9 2 22c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2 0-3.4-1.9-6.3-4.8-7.8.6-.6 1-1.4 1-2.2 0-.4-.3-.8-.8-.8zm-8 4.8c1 0 1.8.8 1.8 1.8s-.8 1.8-1.8 1.8-1.8-.8-1.8-1.8.8-1.8 1.8-1.8z"/></svg>
-              <span>Waze</span>
-            </a>
-
-            <!-- Apple Maps Link -->
-            <a href="https://maps.apple.com/?q=Protea+Consultoria&ll=-37.4827987,-72.3520314" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="justify-content: center; gap: 8px; font-size: 12.5px; padding: 10px; border-radius: var(--radius-sm); font-family: var(--font-body);">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color: #000;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 1.93-.68 3.7-1.8 5.1z"/></svg>
-              <span>Apple</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Lado derecho: Mapa interactivo -->
-      <div style="position: relative; border-radius: var(--radius-md); overflow: hidden; border: 1.5px solid var(--line); box-shadow: var(--shadow-sm); min-height: 400px; background: #e5e3df;">
-        <!-- Contenedor del Mapa de Leaflet -->
-        <div id="mapa-protea" style="width: 100%; height: 100%; min-height: 400px; position: absolute; top: 0; left: 0; z-index: 1;"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const lat = -37.4827987;
-    const lng = -72.3520314;
-
-    const map = L.map('mapa-protea', {
-      center: [lat, lng],
-      zoom: 16,
-      zoomControl: true,
-      scrollWheelZoom: false
-    });
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 20
-    }).addTo(map);
-
-    const proteaHTML = `
-      <div style="
-        width: 50px; 
-        height: 50px; 
-        border-radius: 50%; 
-        border: 3px solid var(--protea); 
-        background: white; 
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.3); 
-        overflow: hidden; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center;
-        position: relative;
-      ">
-        <img src="{% static 'img/map_logo.jpg' %}" style="width: 85%; height: 85%; object-fit: contain;">
-      </div>
-      <div style="
-        width: 0; 
-        height: 0; 
-        border-left: 8px solid transparent; 
-        border-right: 8px solid transparent; 
-        border-top: 10px solid var(--protea); 
-        position: absolute; 
-        bottom: -8px; 
-        left: 17px;
-      "></div>
-    `;
-
-    const customIcon = L.divIcon({
-      html: proteaHTML,
-      className: 'custom-protea-pin',
-      iconSize: [50, 50],
-      iconAnchor: [25, 50],
-      popupAnchor: [0, -50]
-    });
-
-    L.marker([lat, lng], { icon: customIcon }).addTo(map)
-      .bindPopup('<div style="font-family: var(--font-body); font-size: 13.5px; text-align: center;"><strong style="color: var(--protea);">Protea Consultoría</strong><br>Bernardo O\'Higgins 775</div>')
-      .openPopup();
-  });
-</script>
-
-<section class="section opinions-section" id="opiniones">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Opiniones Reales</span>
-      <h2>Lo que dicen de nosotros</h2>
-      <p>Nuestros clientes comparten sus opiniones sobre las capacitaciones y diagnósticos estratégicos impartidos por Protea.</p>
-    </div>
-
     <div class="opiniones-summary-card">
       <div class="summary-score-box">
-        <span class="score-val">4.8</span>
-        <div class="score-stars" id="summary-score-stars" data-rating="4.8" aria-label="4.8 estrellas de 5">
-          <!-- Generado dinámicamente -->
-        </div>
-        <span class="score-label">Google Maps Rating</span>
-        <div class="sync-indicator">
-          <span class="pulse-dot"></span>
-          <span class="sync-text">Sincronizado en tiempo real</span>
-        </div>
+        <span class="score-val">4,8</span>
+        <span class="score-stars" aria-label="4,8 de 5 estrellas">★★★★★</span>
+        <span class="score-label">Valoración promedio</span>
       </div>
       <div class="summary-meta-box">
-        <span class="reviews-count">316+ opiniones reales</span>
-        <p class="summary-note">Calificación perfecta auditada por Google. Actualizado de forma optimizada para una carga ultra rápida sin scripts de terceros.</p>
-        <a href="https://maps.app.goo.gl/SimZXeEeFgiESK5u8" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Ver todas en Google Maps</a>
+        <span class="reviews-count">Opiniones de clientes Protea</span>
+        <p class="summary-note">Cada proyecto nos permite aprender, ajustar y construir soluciones que las organizaciones pueden sostener en el tiempo.</p>
       </div>
     </div>
-
     <div class="carousel-wrapper">
-      <button class="carousel-nav-btn prev-btn" aria-label="Opinión anterior" id="opiniones-prev">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-      </button>
-
+      <button class="carousel-nav-btn prev-btn" type="button" aria-label="Opinión anterior" data-review-direction="prev">‹</button>
       <div class="carousel-track" id="opiniones-track">
-        {% for o in opiniones %}
+        {% for opinion in opiniones %}
         <article class="opinion-card">
-          <div class="opinion-header">
-            <div class="opinion-avatar" aria-hidden="true">{{ o.autor|slice:":1" }}</div>
-            <div class="opinion-meta">
-              <h4 class="opinion-author">{{ o.autor }}</h4>
-              <span class="opinion-time">{{ o.tiempo }}</span>
+          <div>
+            <div class="opinion-header">
+              <div class="opinion-avatar">{{ opinion.autor|slice:":1" }}</div>
+              <div class="opinion-meta">
+                <strong class="opinion-author">{{ opinion.autor }}</strong>
+                <span class="opinion-time">{{ opinion.tiempo }}</span>
+              </div>
             </div>
+            <div class="opinion-rating" aria-label="{{ opinion.estrellas }} de 5 estrellas">{% for star in "12345"|make_list %}{% if forloop.counter <= opinion.estrellas %}★{% else %}<span style="opacity:.25">★</span>{% endif %}{% endfor %}</div>
+            <p class="opinion-text">“{{ opinion.texto }}”</p>
           </div>
-          <div class="opinion-rating" data-stars="{{ o.estrellas }}">
-            <!-- Generado dinámicamente -->
-          </div>
-          <p class="opinion-text">“{{ o.texto }}”</p>
         </article>
         {% endfor %}
       </div>
+      <button class="carousel-nav-btn next-btn" type="button" aria-label="Siguiente opinión" data-review-direction="next">›</button>
+    </div>
+  </div>
+</section>
 
-      <button class="carousel-nav-btn next-btn" aria-label="Opinión siguiente" id="opiniones-next">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      </button>
+<section class="public-section closing-section">
+  <div class="wrap public-split">
+    <div class="public-copy">
+      <span class="eyebrow">Hablemos</span>
+      <h2>Una primera conversación puede ordenar el siguiente paso.</h2>
+      <p>Cuéntanos qué está pasando en tu organización. Revisemos juntos dónde intervenir y qué resultado tendría sentido perseguir.</p>
+      <a href="{% url 'contacto' %}" class="btn btn-primary">Contactar a Protea</a>
+    </div>
+    <div>
+      <img src="{% static 'img/workshop.jpg' %}" alt="Equipo trabajando en un taller" class="public-image">
     </div>
   </div>
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const track = document.getElementById('opiniones-track');
-    const prevBtn = document.getElementById('opiniones-prev');
-    const nextBtn = document.getElementById('opiniones-next');
+  document.addEventListener('DOMContentLoaded', function () {
+    const lat = -37.4827987;
+    const lng = -72.3520314;
+    const mapElement = document.getElementById('mapa-protea');
 
-    // 1. Renderizar promedio fraccionario (4.8 estrellas con gradiente)
-    const summaryStars = document.getElementById('summary-score-stars');
-    if (summaryStars) {
-      const rating = parseFloat(summaryStars.getAttribute('data-rating')) || 4.8;
-      let html = '';
-      for (let i = 1; i <= 5; i++) {
-        if (i <= Math.floor(rating)) {
-          html += `<svg class="star-icon filled" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
-        } else if (i - 1 < rating && i > rating) {
-          const pct = Math.round((rating - Math.floor(rating)) * 100);
-          html += `
-            <svg class="star-icon partial" viewBox="0 0 24 24" width="20" height="20" style="color: #ccc;">
-              <defs>
-                <linearGradient id="grad-${pct}">
-                  <stop offset="${pct}%" stop-color="var(--gold)"/>
-                  <stop offset="${pct}%" stop-color="#ccc" stop-opacity="1"/>
-                </linearGradient>
-              </defs>
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#grad-${pct})"/>
-            </svg>
-          `;
-        } else {
-          html += `<svg class="star-icon empty" viewBox="0 0 24 24" width="20" height="20" fill="#ccc"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
-        }
-      }
-      summaryStars.innerHTML = html;
+    if (mapElement && window.L) {
+      const map = L.map(mapElement, { scrollWheelZoom: false }).setView([lat, lng], 16);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        subdomains: 'abcd',
+        maxZoom: 20
+      }).addTo(map);
+      const logoIcon = L.divIcon({
+        className: 'protea-map-marker',
+        html: '<img src="{% static "img/map_logo.jpg" %}" alt="Protea Consultoría">',
+        iconSize: [58, 58],
+        iconAnchor: [29, 58],
+        popupAnchor: [0, -58]
+      });
+      L.marker([lat, lng], { icon: logoIcon }).addTo(map).bindPopup('<strong>Protea Consultoría</strong><br>Bernardo O\'Higgins 775').openPopup();
     }
 
-    // 2. Renderizar estrellas de las tarjetas individuales dinámicamente
-    document.querySelectorAll('.opinion-rating').forEach(el => {
-      const starsCount = parseInt(el.getAttribute('data-stars')) || 5;
-      let html = '';
-      for (let i = 1; i <= 5; i++) {
-        const isFilled = i <= starsCount;
-        html += `<svg class="star-icon ${isFilled ? 'filled' : 'empty'}" viewBox="0 0 24 24" width="16" height="16" fill="${isFilled ? 'var(--gold)' : '#ccc'}"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
-      }
-      el.innerHTML = html;
-    });
-
-    if (!track || !prevBtn || !nextBtn) return;
-
-    const getScrollAmount = () => {
-      const card = track.querySelector('.opinion-card');
-      if (!card) return 320;
-      const cardWidth = card.getBoundingClientRect().width;
-      const style = window.getComputedStyle(card);
-      const marginRight = parseFloat(style.marginRight) || 0;
-      return cardWidth + marginRight;
-    };
-
-    prevBtn.addEventListener('click', function() {
-      track.scrollBy({
-        left: -getScrollAmount(),
-        behavior: 'smooth'
+    const reviewTrack = document.getElementById('opiniones-track');
+    document.querySelectorAll('[data-review-direction]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        if (!reviewTrack) return;
+        reviewTrack.scrollBy({ left: button.dataset.reviewDirection === 'next' ? reviewTrack.clientWidth * 0.82 : -reviewTrack.clientWidth * 0.82, behavior: 'smooth' });
       });
     });
-
-    nextBtn.addEventListener('click', function() {
-      track.scrollBy({
-        left: getScrollAmount(),
-        behavior: 'smooth'
-      });
-    });
-
-    const updateButtons = () => {
-      const isAtStart = track.scrollLeft <= 10;
-      const isAtEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 20;
-
-      prevBtn.style.opacity = isAtStart ? '0.3' : '1';
-      prevBtn.style.pointerEvents = isAtStart ? 'none' : 'auto';
-
-      nextBtn.style.opacity = isAtEnd ? '0.3' : '1';
-      nextBtn.style.pointerEvents = isAtEnd ? 'none' : 'auto';
-    };
-
-    track.addEventListener('scroll', updateButtons);
-    setTimeout(updateButtons, 100);
-    window.addEventListener('resize', updateButtons);
-
-    // 3. Auto-scroll / Carrusel Autoplay con pausa en hover
-    let autoScrollInterval;
-    const startAutoScroll = () => {
-      autoScrollInterval = setInterval(() => {
-        const isAtEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 20;
-        if (isAtEnd) {
-          track.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
-        }
-      }, 4000);
-    };
-
-    const stopAutoScroll = () => {
-      clearInterval(autoScrollInterval);
-    };
-
-    startAutoScroll();
-
-    track.addEventListener('mouseenter', stopAutoScroll);
-    track.addEventListener('mouseleave', startAutoScroll);
-    prevBtn.addEventListener('mouseenter', stopAutoScroll);
-    prevBtn.addEventListener('mouseleave', startAutoScroll);
-    nextBtn.addEventListener('mouseenter', stopAutoScroll);
-    nextBtn.addEventListener('mouseleave', startAutoScroll);
-  });
-
-  // Script para controlar el Carrusel del Hero (Desvanecimiento suave con textos integrados)
-  document.addEventListener('DOMContentLoaded', () => {
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.hero-carousel-dots .dot');
-    const prevBtn = document.querySelector('.hero-carousel-btn.prev-btn');
-    const nextBtn = document.querySelector('.hero-carousel-btn.next-btn');
-    let currentSlide = 0;
-    let autoPlayTimer;
-
-    const showSlide = (n) => {
-      if (!slides.length) return;
-      currentSlide = (n + slides.length) % slides.length;
-
-      // Actualizar imágenes y z-index
-      slides.forEach((s, idx) => {
-        if (idx === currentSlide) {
-          s.style.opacity = '1';
-          s.style.zIndex = '2';
-        } else {
-          s.style.opacity = '0';
-          s.style.zIndex = '0';
-        }
-      });
-
-      // Actualizar puntos indicadores
-      dots.forEach((d, idx) => {
-        if (idx === currentSlide) {
-          d.classList.add('active');
-          d.style.background = 'var(--protea)';
-        } else {
-          d.classList.remove('active');
-          d.style.background = 'rgba(0,0,0,0.18)';
-        }
-      });
-    };
-
-    const nextSlide = () => showSlide(currentSlide + 1);
-    const prevSlide = () => showSlide(currentSlide - 1);
-
-    if (prevBtn && nextBtn) {
-      prevBtn.addEventListener('click', () => {
-        prevSlide();
-        resetTimer();
-      });
-      nextBtn.addEventListener('click', () => {
-        nextSlide();
-        resetTimer();
-      });
-    }
-
-    dots.forEach((dot, idx) => {
-      dot.addEventListener('click', () => {
-        showSlide(idx);
-        resetTimer();
-      });
-    });
-
-    const startTimer = () => {
-      autoPlayTimer = setInterval(nextSlide, 6000);
-    };
-
-    const resetTimer = () => {
-      clearInterval(autoPlayTimer);
-      startTimer();
-    };
-
-    startTimer();
   });
 </script>
 

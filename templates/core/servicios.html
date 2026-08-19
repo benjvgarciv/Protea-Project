@@ -3,19 +3,27 @@
 {% block title %}Programas de Consultoría & Diagnósticos — Protea Consultoría{% endblock %}
 {% block content %}
 
-<section class="page-hero">
-  <div class="wrap">
+<section class="oferta-hero">
+  <div class="wrap oferta-hero-grid">
     <span class="eyebrow on-ink">Nuestras Soluciones</span>
-    <h1>Líneas de Negocio y Áreas de Experiencia</h1>
-    <p>Ofrecemos consultorías especializadas, salud ocupacional y capacitaciones certificadas (OTEC) orientadas a potenciar la gestión de personas y el bienestar de los trabajadores.</p>
+    <div class="oferta-hero-content">
+      <h1>Líneas de Negocio y Áreas de Experiencia</h1>
+      <p>Ofrecemos consultorías especializadas, salud ocupacional y capacitaciones certificadas (OTEC) orientadas a potenciar la gestión de personas y el bienestar de los trabajadores.</p>
+    </div>
+    <div class="oferta-hero-index" aria-hidden="true">
+      <span>01</span>
+      <span>Diagnóstico</span>
+      <span>02</span>
+      <span>Implementación</span>
+    </div>
   </div>
 </section>
 
-<section class="section" style="padding-top: 30px;">
+<section class="section oferta-catalog" style="padding-top: 54px;">
   <div class="wrap">
     
     <!-- Contenedor del Buscador y Filtros -->
-    <div style="background: var(--bg-card); border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 40px;">
+    <div class="oferta-filter-panel" style="background: var(--bg-card); border: 1.5px solid var(--line); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 40px;">
       <form method="get" action="{% url 'servicios' %}" id="search-filter-form" style="display: flex; flex-direction: column; gap: 20px;">
         
         <!-- Buscador de Texto -->
@@ -58,9 +66,9 @@
     </div>
 
     <!-- Resultados / Listado de Cursos -->
-    <div class="courses-grid">
+    <div class="courses-grid oferta-grid">
       {% for s in servicios %}
-      <article class="course-card">
+      <article class="course-card oferta-card">
         <!-- Marca de agua artística y sutil de Protea (no invasiva) -->
         <div class="card-protea-watermark" aria-hidden="true">
           <img src="{% static 'img/protea_watermark_clean.png' %}" alt="" class="card-protea-img">
