@@ -3521,22 +3521,10 @@ form.contact-form {
   overflow: hidden;
 }
 
-.oferta-hero::after {
-  content: "";
-  position: absolute;
-  right: 8%;
-  bottom: -190px;
-  width: 430px;
-  height: 430px;
-  border: 2px solid rgba(194, 14, 58, 0.12);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
 .oferta-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(210px, .38fr);
-  gap: 56px;
+  grid-template-columns: 1fr;
+  gap: 28px;
   align-items: end;
   position: relative;
   z-index: 1;
@@ -3545,21 +3533,6 @@ form.contact-form {
 .oferta-hero-grid > .eyebrow { grid-column: 1 / -1; margin-bottom: -36px; color: var(--protea); }
 .oferta-hero h1 { max-width: 760px; font-size: clamp(42px, 5.6vw, 70px); line-height: 1.04; }
 .oferta-hero p { max-width: 680px; margin-top: 20px; color: var(--ink-soft); font-size: 17px; line-height: 1.65; }
-
-.oferta-hero-index {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 12px 16px;
-  padding: 20px 0 0 24px;
-  border-left: 3px solid var(--sage);
-  color: var(--ink-soft);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-}
-
-.oferta-hero-index span:nth-child(odd) { color: var(--protea); font-weight: 700; }
 
 .oferta-catalog {
   background: rgba(255,255,255,.48);
@@ -3581,9 +3554,9 @@ form.contact-form {
 }
 
 .oferta-card {
-  min-height: 680px;
+  min-height: 0;
   border-radius: 4px;
-  padding: 32px 30px 26px;
+  padding: 26px 24px 22px;
   border: 1px solid rgba(31,51,24,.14);
   border-top: 5px solid var(--sage);
   background: rgba(255,255,255,.90);
@@ -3595,16 +3568,14 @@ form.contact-form {
 .oferta-card:hover { border-color: var(--protea); border-top-color: var(--protea); box-shadow: 0 20px 42px rgba(31,51,24,.11); }
 .oferta-card .course-title { min-height: 74px; font-size: 26px; }
 .oferta-card .course-summary { min-height: 72px; }
-.oferta-card .course-survey-box { border-radius: 3px; background: rgba(236,242,234,.62); border-left-width: 4px; }
 .oferta-card .course-meta-row { margin-top: 4px; }
 .oferta-card .course-deliverables { margin-top: 22px; }
 .oferta-card .course-card-footer { border-top: 1px solid var(--line); margin-top: 22px; padding-top: 20px; }
 .oferta-card .btn-course { min-height: 48px; }
 
 @media (max-width: 850px) {
-  .oferta-hero-grid { grid-template-columns: 1fr; gap: 28px; }
+  .oferta-hero-grid { gap: 28px; }
   .oferta-hero-grid > .eyebrow { margin-bottom: -12px; }
-  .oferta-hero-index { max-width: 360px; }
   .oferta-grid { grid-template-columns: 1fr; }
   .oferta-card { min-height: 0; }
 }
@@ -3616,7 +3587,7 @@ form.contact-form {
   .oferta-filter-panel { padding: 18px !important; }
   .oferta-filter-panel form > div:first-child { flex-direction: column !important; }
   .oferta-filter-panel form > div:first-child .btn { min-height: 44px; }
-  .oferta-card { padding: 26px 22px 22px; }
+  .oferta-card { padding: 22px 20px 20px; }
   .oferta-card .course-title { min-height: 0; font-size: 23px; }
   .oferta-card .course-summary { min-height: 0; }
 }
@@ -3626,7 +3597,7 @@ form.contact-form {
   border: 1px solid rgba(31, 51, 24, 0.14);
   border-top: 0;
   border-radius: 2px;
-  padding: 0 30px 28px;
+  padding: 0 24px 22px;
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 14px 30px rgba(31, 51, 24, 0.07);
 }
@@ -3666,20 +3637,6 @@ form.contact-form {
 .oferta-card:nth-child(2n) .course-code { color: var(--protea); background: var(--protea-soft); border-color: rgba(194,14,58,.14); }
 .oferta-card .course-title { min-height: 0; margin-top: 18px; font-size: 28px; line-height: 1.13; letter-spacing: -.025em; }
 .oferta-card .course-summary { min-height: 0; margin-top: 2px; font-size: 15px; line-height: 1.65; }
-
-.oferta-card .course-survey-box {
-  margin: 22px 0 0;
-  padding: 20px;
-  background: linear-gradient(135deg, rgba(236,242,234,.82), rgba(255,255,255,.82));
-  border: 1px solid rgba(60,97,46,.12);
-  border-left: 4px solid var(--header-green);
-  box-shadow: none;
-}
-
-.oferta-card:nth-child(2n) .course-survey-box { border-left-color: var(--protea); }
-.oferta-card .survey-box-head { padding-bottom: 12px; border-bottom: 1px dashed rgba(60,97,46,.18); }
-.oferta-card .survey-name { margin-top: 2px; font-size: 15px; line-height: 1.4; }
-.oferta-card .course-detail { margin-top: 8px; font-size: 13.5px; }
 
 .oferta-card .course-meta-row {
   display: grid;
