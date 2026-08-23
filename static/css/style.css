@@ -160,11 +160,11 @@ p {
 .eyebrow {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 14px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--protea);
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .eyebrow.on-green {
@@ -1016,35 +1016,15 @@ p {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: 0 4px 20px -2px rgba(18, 38, 14, 0.04), 0 1px 3px rgba(18, 38, 14, 0.02);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
-}
-
-.service-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--header-green) 0%, rgba(21, 56, 18, 0.1) 100%);
-  opacity: 0.7;
-  transition: all 0.3s ease;
 }
 
 .service-card:hover {
   transform: translateY(-5px);
   background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
               linear-gradient(135deg, var(--protea) 0%, rgba(190, 18, 56, 0.2) 100%) border-box;
-  box-shadow: 0 18px 38px -8px rgba(18, 38, 14, 0.10);
-}
-
-.service-card:hover::before {
-  height: 3px;
-  background: linear-gradient(90deg, var(--protea) 0%, var(--gold) 100%);
-  opacity: 1;
 }
 
 .service-top-row {
@@ -2762,6 +2742,123 @@ form.contact-form {
   line-height: 1.10;
 }
 
+.services-section {
+  background: #edf4ea;
+}
+
+.services-section-head {
+  max-width: none;
+  margin-bottom: 38px;
+  text-align: center;
+}
+
+.services-section-head .eyebrow {
+  color: var(--protea);
+}
+
+.services-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+}
+
+.service-card {
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  color: var(--protea);
+  min-height: 190px;
+  padding: 30px;
+  border: 2px solid var(--protea);
+  border-radius: 30px;
+  background: transparent;
+}
+
+.service-card-leaf {
+  position: absolute;
+  z-index: 5;
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  opacity: 0.86;
+  pointer-events: none;
+}
+
+.service-card-leaf-1 {
+  right: 5px;
+  bottom: 5px;
+  transform: rotate(28deg);
+}
+
+.service-card-leaf-2 {
+  left: 5px;
+  bottom: 5px;
+  transform: scaleX(-1) rotate(28deg);
+}
+
+.service-card-leaf-3 {
+  right: 5px;
+  top: 5px;
+  transform: scaleY(-1) rotate(28deg);
+}
+
+.service-card-leaf-4 {
+  left: 5px;
+  top: 5px;
+  transform: scale(-1) rotate(28deg);
+}
+
+.service-card h3 {
+  color: var(--protea);
+  font-size: 21px;
+  line-height: 1.25;
+}
+
+.service-card-green h3 {
+  color: var(--header-green);
+}
+
+.service-card p {
+  margin-top: 16px;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.service-card strong {
+  color: var(--protea);
+}
+
+.service-card h3,
+.service-card p {
+  position: relative;
+  z-index: 4;
+}
+
+.services-center-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transform: translate(-50%, -50%);
+}
+
+.services-center-logo img {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .location-section {
   background: rgba(236, 242, 234, 0.82);
   border-top: 5px solid var(--sage);
@@ -2934,6 +3031,18 @@ form.contact-form {
   .nav-btn { padding: 8px 6px; font-size: 11px; }
   .public-split,
   .public-card-grid { grid-template-columns: 1fr; gap: 28px; }
+  .services-grid { grid-template-columns: 1fr; gap: 24px; }
+  .services-center-logo {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto;
+    transform: none;
+  }
+  .services-center-logo img { width: 64px; height: 64px; }
+  .service-card-leaf { display: none; }
   .public-stat-strip { grid-template-columns: repeat(2, 1fr); }
   .public-stat:nth-child(2) { border-right: 0; }
   .public-stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
@@ -2984,23 +3093,34 @@ form.contact-form {
 
 .map-frame { border-color: rgba(60, 97, 46, 0.22); }
 
-.protea-map-marker {
+.protea-pin-wrap {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.protea-pin {
+  position: relative;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid var(--sage);
   border-radius: 50% 50% 50% 0;
-  background: #fff;
-  box-shadow: 0 5px 14px rgba(31, 51, 24, 0.28);
+  background: #ffffff;
+  border: 3px solid var(--sage);
+  box-shadow: 0 8px 18px rgba(31, 51, 24, 0.22);
   transform: rotate(-45deg);
+  overflow: visible;
 }
 
-.protea-map-marker img {
-  width: 40px;
-  height: 40px;
+.protea-pin img {
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   object-fit: cover;
   transform: rotate(45deg);
+  display: block;
 }
 
 .opiniones-section {
@@ -3131,6 +3251,7 @@ form.contact-form {
 .empresa-essence {
   padding-top: 92px;
   padding-bottom: 96px;
+  background-color: transparent;
 }
 
 .empresa-essence .section-head {
@@ -3175,7 +3296,7 @@ form.contact-form {
 .empresa-acrostic-grid .acrostic-content p { font-size: 14px; }
 
 .empresa-team-section {
-  background: rgba(236, 242, 234, 0.64);
+  background-color: transparent;
   border-top: 1px solid var(--line);
 }
 
@@ -3186,6 +3307,97 @@ form.contact-form {
 .empresa-team-section .team-grid { margin-top: 44px; }
 .empresa-team-section .team-card:nth-child(2) { transform: translateY(30px); }
 .empresa-team-section .team-card:nth-child(2):hover { transform: translateY(24px); }
+
+.team-spotlight-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+  margin-top: 44px;
+}
+
+.empresa-team-section .team-card-featured {
+  min-height: 100%;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.empresa-team-section .team-card-featured .team-card-media {
+  height: 100%;
+  min-height: 440px;
+}
+
+.empresa-team-section .team-card-featured .team-card-body {
+  padding: 28px 28px 46px;
+}
+
+.empresa-team-section .team-card-featured .team-name {
+  font-size: 28px;
+}
+
+.empresa-team-section .team-card-featured .team-role {
+  min-height: 0;
+}
+
+.empresa-team-section .team-card-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-items: stretch;
+}
+
+.empresa-team-section .team-card-mini {
+  min-height: 100%;
+  height: 100%;
+}
+
+.empresa-team-section .team-card-mini .team-card-media {
+  height: 170px;
+}
+
+.empresa-team-section .team-card-media-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  color: rgba(255,255,255,0.8);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.empresa-team-section .team-card-mini .team-card-body {
+  padding: 18px 18px 28px;
+}
+
+.empresa-team-section .team-card-mini .team-name {
+  font-size: 18px;
+  min-height: 0;
+  margin-bottom: 6px;
+}
+
+.empresa-team-section .team-card-mini .team-role {
+  font-size: 10.5px;
+  min-height: 0;
+  margin-bottom: 8px;
+}
+
+.empresa-team-section .team-card-mini .team-origin {
+  font-size: 12px;
+  margin-bottom: 10px;
+  min-height: 0;
+}
+
+.empresa-team-section .team-card-mini .team-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 0;
+}
 
 .empresa-values-section { padding-top: 96px; padding-bottom: 96px; }
 .empresa-values-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 42px; }
@@ -3243,7 +3455,7 @@ form.contact-form {
 }
 
 .empresa-values-section {
-  background: rgba(236, 242, 234, 0.54);
+  background-color: transparent;
   border-top: 1px solid var(--line);
 }
 
@@ -3263,7 +3475,7 @@ form.contact-form {
   align-items: center;
   gap: 42px;
   min-height: 0;
-  padding: 25px 12px 25px 42px;
+  padding: 25px 12px;
   border: 0;
   border-bottom: 1px solid rgba(60, 97, 46, 0.22);
   border-radius: 0;
@@ -3272,18 +3484,6 @@ form.contact-form {
   position: relative;
 }
 
-.empresa-values-list .valor-row::before {
-  content: "0" counter(empresa-value);
-  counter-increment: empresa-value;
-  position: absolute;
-  left: 0;
-  color: var(--protea);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.empresa-values-list { counter-reset: empresa-value; }
 .empresa-values-list .valor-row:hover { transform: none; box-shadow: none; background: rgba(255,255,255,.45); }
 .empresa-values-list .valor-row h3 { font-size: 24px; color: var(--ink); }
 .empresa-values-list .valor-row p { max-width: 52ch; font-size: 15px; }
@@ -3294,7 +3494,7 @@ form.contact-form {
   .empresa-values-list .valor-row:nth-child(3) {
     grid-template-columns: 1fr;
     gap: 8px;
-    padding: 22px 8px 22px 38px;
+    padding: 22px 8px;
   }
 }
 

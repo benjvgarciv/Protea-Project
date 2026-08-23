@@ -3,6 +3,100 @@
 {% block title %}Protea Consultoría — estrategia con raíces reales{% endblock %}
 {% block content %}
 
+<style>
+  .services-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+  }
+
+  .services-grid .service-card {
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    border: 2px solid var(--protea);
+    box-shadow: none;
+  }
+
+  .services-grid .service-card:nth-of-type(1) {
+    border-radius: 20px 20px 90px 20px;
+  }
+
+  .services-grid .service-card:nth-of-type(2) {
+    border-color: var(--header-green);
+    border-radius: 20px 20px 20px 90px;
+  }
+
+  .services-grid .service-card:nth-of-type(3) {
+    border-color: var(--header-green);
+    border-radius: 20px 90px 20px 20px;
+  }
+
+  .services-grid .service-card:nth-of-type(4) {
+    border-radius: 90px 20px 20px 20px;
+  }
+
+  .services-grid .service-card-leaf {
+    position: absolute;
+    z-index: 5;
+  }
+
+  .services-grid .service-card-leaf-1 {
+    right: 8px;
+    bottom: 8px;
+  }
+
+  .services-grid .service-card-leaf-2 {
+    left: 8px;
+    bottom: 8px;
+  }
+
+  .services-grid .service-card-leaf-3 {
+    right: 10px;
+    top: 10px;
+  }
+
+  .services-grid .service-card-leaf-4 {
+    left: 10px;
+    top: 10px;
+  }
+
+  .services-grid .service-card h3,
+  .services-grid .service-card p {
+    position: relative;
+    z-index: 6;
+  }
+
+  .services-grid .services-center-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transform: translate(-50%, -50%);
+  }
+
+  @media (max-width: 900px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .services-grid .services-center-logo {
+      position: relative;
+      top: auto;
+      left: auto;
+      margin: 0 auto;
+      transform: none;
+    }
+  }
+</style>
+
 <section class="public-hero">
   <div class="wrap">
     <span class="eyebrow">Consultora Protea</span>
@@ -12,23 +106,36 @@
   </div>
 </section>
 
-<section class="public-section">
-  <div class="wrap public-split">
-    <div>
-      {% if carousel %}
-        <img src="{% static carousel.0.imagen_path %}" alt="{{ carousel.0.titulo }}" class="public-image">
-      {% else %}
-        <img src="{% static 'img/workshop.jpg' %}" alt="Taller de trabajo" class="public-image">
-      {% endif %}
+<section class="public-section services-section">
+  <div class="wrap">
+    <div class="public-section-head services-section-head">
+      <span class="eyebrow">NUESTROS SERVICIOS</span>
+      <h2>Áreas de Especialidad</h2>
     </div>
-    <div class="public-copy">
-      <div class="public-section-head">
-        <span class="eyebrow">Nuestra mirada</span>
-        <h2>Consultoría aplicada, cercana y con resultados.</h2>
+    <div class="services-grid">
+      <div class="services-center-logo" aria-hidden="true">
+        <img src="{% static 'img/map_logo.jpg' %}" alt="">
       </div>
-      <p>Somos una firma chilena de recursos humanos y desarrollo organizacional fundada en mayo de 2015 en Los Ángeles, Región del Biobío.</p>
-      <p>Acompañamos a empresas en procesos de transformación que buscan mejorar la gestión, fortalecer sus equipos y cuidar la calidad de vida de las personas.</p>
-      <a href="{% url 'nosotros' %}" class="text-link">Conoce nuestra historia <span aria-hidden="true">→</span></a>
+      <article class="service-card service-card-red">
+        <img class="service-card-leaf service-card-leaf-1" src="{% static 'img/protea_watermark_clean.png' %}" alt="">
+        <h3>1. Desarrollo Organizacional y Formación</h3>
+        <p>Diagnósticos, clima, cultura, capacitaciones.</p>
+      </article>
+      <article class="service-card service-card-green">
+        <img class="service-card-leaf service-card-leaf-2" src="{% static 'img/protea_watermark_clean.png' %}" alt="">
+        <h3>2. Evaluaciones Psicolaborales</h3>
+        <p>Selección, potencial, aversión al riesgo, mandos medios.</p>
+      </article>
+      <article class="service-card service-card-green">
+        <img class="service-card-leaf service-card-leaf-3" src="{% static 'img/protea_watermark_clean.png' %}" alt="">
+        <h3>3. Salud Ocupacional y Calidad de Vida</h3>
+        <p>Protocolos MINSAL, ergonomía, bienestar.</p>
+      </article>
+      <article class="service-card service-card-red">
+        <img class="service-card-leaf service-card-leaf-4" src="{% static 'img/protea_watermark_clean.png' %}" alt="">
+        <h3>4. Seguridad y Prevención</h3>
+        <p>Cultura de seguridad, evaluaciones <strong>CORMA</strong>, intervención post-accidente.</p>
+      </article>
     </div>
   </div>
 </section>
@@ -126,14 +233,25 @@
         subdomains: 'abcd',
         maxZoom: 20
       }).addTo(map);
-      const logoIcon = L.divIcon({
-        className: 'protea-map-marker',
-        html: '<img src="{% static "img/map_logo.jpg" %}" alt="Protea Consultoría">',
-        iconSize: [58, 58],
-        iconAnchor: [29, 58],
-        popupAnchor: [0, -58]
+
+      const logoUrl = '{% static "img/map_logo.jpg" %}';
+      const markerIcon = L.divIcon({
+        className: 'protea-pin-wrap',
+        html: '<div class="protea-pin"><img src="' + logoUrl + '" alt="Protea logo" /></div>',
+        iconSize: [34, 34],
+        iconAnchor: [17, 34],
+        popupAnchor: [0, -30],
+        tooltipAnchor: [0, -30]
       });
-      L.marker([lat, lng], { icon: logoIcon }).addTo(map).bindPopup('<strong>Protea Consultoría</strong><br>Bernardo O\'Higgins 775').openPopup();
+
+      const marker = L.marker([lat, lng], {
+        icon: markerIcon,
+        title: 'Protea Consultoría'
+      });
+
+      marker.bindPopup('<strong>Protea Consultoría</strong><br>Bernardo O\'Higgins 775');
+      marker.addTo(map);
+      marker.openPopup();
     }
 
     const reviewTrack = document.getElementById('opiniones-track');
