@@ -69,16 +69,25 @@
   }
 
   .services-grid .services-center-logo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    overflow: visible;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
     z-index: 10;
-    width: 120px;
-    height: 120px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transform: translate(-50%, -50%);
+  }
+
+  .services-grid .services-center-logo img {
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+    object-fit: contain;
+    display: block;
   }
 
   @media (max-width: 900px) {
@@ -114,7 +123,7 @@
     </div>
     <div class="services-grid">
       <div class="services-center-logo" aria-hidden="true">
-        <img src="{% static 'img/map_logo.jpg' %}" alt="">
+        <img src="{% static 'img/logo_transparent.png' %}" alt="Protea Consultoría">
       </div>
       <article class="service-card service-card-red">
         <img class="service-card-leaf service-card-leaf-1" src="{% static 'img/protea_watermark_clean.png' %}" alt="">

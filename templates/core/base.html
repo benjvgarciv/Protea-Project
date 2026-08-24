@@ -30,10 +30,7 @@
         <nav class="main-nav" aria-label="Navegación principal">
           <a href="{% url 'inicio' %}" class="nav-btn {% if activo == 'inicio' %}is-active{% endif %}">Inicio</a>
           <a href="{% url 'nosotros' %}" class="nav-btn {% if activo == 'nosotros' %}is-active{% endif %}">Empresa</a>
-          <a href="{% url 'nosotros' %}#equipo" class="nav-btn">Equipo</a>
-          <a href="{% url 'servicios' %}" class="nav-btn {% if activo == 'servicios' %}is-active{% endif %}">Oferta de valor</a>
-          <a href="{% url 'servicios' %}" class="nav-btn">Cursos</a>
-          <a href="{% url 'nosotros' %}#trayectoria" class="nav-btn">Experiencia</a>
+          <a href="{% url 'servicios' %}" class="nav-btn {% if activo == 'servicios' %}is-active{% endif %}">Cursos</a>
           <a href="{% url 'contacto' %}" class="nav-btn nav-btn-cta {% if activo == 'contacto' %}is-active{% endif %}">Contacto</a>
         </nav>
 
