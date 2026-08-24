@@ -7,101 +7,185 @@
   .services-grid {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 50px;
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+    gap: 42px 48px;
+    align-items: center;
+    padding: 18px 0 0;
+    min-height: 570px;
   }
 
   .services-grid .service-card {
     position: relative;
-    overflow: hidden;
-    background: #ffffff;
+    overflow: visible;
+    background: #fffdf8;
     border: 2px solid var(--protea);
     box-shadow: none;
+    min-height: 210px;
+    padding: 45px 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
   }
 
   .services-grid .service-card:nth-of-type(1) {
-    border-radius: 20px 20px 90px 20px;
+    border-radius: 22px 22px 92px 22px;
   }
 
   .services-grid .service-card:nth-of-type(2) {
     border-color: var(--header-green);
-    border-radius: 20px 20px 20px 90px;
+    border-radius: 22px 22px 22px 92px;
   }
 
   .services-grid .service-card:nth-of-type(3) {
     border-color: var(--header-green);
-    border-radius: 20px 90px 20px 20px;
+    border-radius: 22px 92px 22px 22px;
   }
 
   .services-grid .service-card:nth-of-type(4) {
-    border-radius: 90px 20px 20px 20px;
+    border-radius: 92px 22px 22px 22px;
   }
 
-  .services-grid .service-card-leaf {
-    position: absolute;
-    z-index: 5;
+  .services-grid .service-card h3 {
+    position: relative;
+    z-index: 3;
+    color: var(--protea);
+    font-size: clamp(2rem, 2vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    margin: 0 0 18px;
+    font-weight: 700;
   }
 
-  .services-grid .service-card-leaf-1 {
-    right: 8px;
-    bottom: 8px;
-  }
-
-  .services-grid .service-card-leaf-2 {
-    left: 8px;
-    bottom: 8px;
-  }
-
-  .services-grid .service-card-leaf-3 {
-    right: 10px;
-    top: 10px;
-  }
-
-  .services-grid .service-card-leaf-4 {
-    left: 10px;
-    top: 10px;
-  }
-
-  .services-grid .service-card h3,
   .services-grid .service-card p {
     position: relative;
-    z-index: 6;
+    z-index: 3;
+    margin: 0;
+    color: rgba(21, 25, 24, 0.8);
+    font-size: clamp(1.05rem, 1.2vw, 1.55rem);
+    line-height: 1.4;
+    max-width: 26ch;
+  }
+
+  .service-card:nth-of-type(2) h3,
+  .service-card:nth-of-type(3) h3,
+  .service-card:nth-of-type(2) p,
+  .service-card:nth-of-type(3) p {
+    color: rgba(10, 31, 9, 0.9);
+  }
+
+  .corner-floral {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    width: 42px;
+    height: 42px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .corner-floral svg {
+    display: block;
+    width: 42px;
+    height: 42px;
+  }
+
+  .corner-floral .stem,
+  .corner-floral .vein {
+    fill: none;
+    stroke: #3e6b48;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+  }
+
+  .corner-floral .leaf {
+    fill: #3e6b48;
+  }
+
+  .corner-floral .petal {
+    fill: #a32244;
+  }
+
+  .corner-floral .center {
+    fill: #d8a932;
+  }
+
+  .services-grid .service-card:nth-of-type(2) .corner-floral,
+  .services-grid .service-card:nth-of-type(4) .corner-floral {
+    left: auto;
+    right: -12px;
+    transform: scaleX(-1);
+  }
+
+  .service-card-red {
+    --botanical: #b63d57;
+    --accent: #d98298;
+    --leaf: #5d7f4f;
+    --gold: #e8b33f;
+  }
+
+  .service-card-green {
+    --botanical: #5b7d4c;
+    --accent: #b63d57;
+    --leaf: #b63d57;
+    --gold: #e8b33f;
   }
 
   .services-grid .services-center-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 108px;
+    height: 108px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    min-height: 150px;
-    overflow: visible;
+    justify-content: center;
     background: transparent;
     border-radius: 0;
     box-shadow: none;
     z-index: 10;
+    pointer-events: none;
   }
 
   .services-grid .services-center-logo img {
-    width: 100%;
-    max-width: 100px;
-    height: auto;
+    width: 92px;
+    height: 92px;
     object-fit: contain;
+    border-radius: 0;
+    mix-blend-mode: multiply;
     display: block;
+    filter: drop-shadow(0 5px 10px rgba(190,18,56,0.1));
   }
 
   @media (max-width: 900px) {
     .services-grid {
       grid-template-columns: 1fr;
-      gap: 24px;
+      gap: 28px;
+      min-height: auto;
     }
 
     .services-grid .services-center-logo {
       position: relative;
       top: auto;
       left: auto;
-      margin: 0 auto;
+      margin: 0 auto 8px;
       transform: none;
+      width: 104px;
+      height: 104px;
+    }
+
+    .services-grid .service-card {
+      min-height: 170px;
+      padding: 40px 28px;
+    }
+
+    .services-grid .service-card h3 {
+      font-size: clamp(1.7rem, 5vw, 2.4rem);
+    }
+
+    .services-grid .service-card p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
     }
   }
 </style>
@@ -126,22 +210,46 @@
         <img src="{% static 'img/logo_transparent.png' %}" alt="Protea Consultoría">
       </div>
       <article class="service-card service-card-red">
-        <img class="service-card-leaf service-card-leaf-1" src="{% static 'img/protea_watermark_clean.png' %}" alt="">
+        <div class="corner-floral" aria-hidden="true">
+          <svg viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+            <path class="stem" d="M9 39C12 29 17 22 26 16C30 13 33 9 35 3"/>
+            <path class="vein" d="M17 25C13 20 10 17 6 16M22 20C23 15 25 11 28 8"/>
+            <path class="leaf" d="M6 16C10 14 14 16 17 20C13 21 9 19 6 16Z"/>
+            <path class="leaf" d="M28 8C27 4 29 2 34 1C34 5 32 7 28 8Z"/>
+            <path class="petal" d="M35 14C31 11 31 6 34 2C38 6 38 10 35 14Z"/>
+            <path class="petal" d="M35 14C37 9 41 8 42 9C41 14 39 16 35 14Z"/>
+            <path class="petal" d="M35 14C30 15 27 13 27 10C31 9 34 10 35 14Z"/>
+            <path class="petal" d="M35 14C34 18 31 19 29 17C30 14 32 13 35 14Z"/>
+            <circle class="center" cx="35" cy="14" r="1.5"/>
+          </svg>
+        </div>
         <h3>1. Desarrollo Organizacional y Formación</h3>
         <p>Diagnósticos, clima, cultura, capacitaciones.</p>
       </article>
       <article class="service-card service-card-green">
-        <img class="service-card-leaf service-card-leaf-2" src="{% static 'img/protea_watermark_clean.png' %}" alt="">
+        <div class="corner-floral" aria-hidden="true">
+          <svg viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+            <path class="stem" d="M9 39C12 29 17 22 26 16C30 13 33 9 35 3"/><path class="vein" d="M17 25C13 20 10 17 6 16M22 20C23 15 25 11 28 8"/><path class="leaf" d="M6 16C10 14 14 16 17 20C13 21 9 19 6 16Z"/><path class="leaf" d="M28 8C27 4 29 2 34 1C34 5 32 7 28 8Z"/><path class="petal" d="M35 14C31 11 31 6 34 2C38 6 38 10 35 14Z"/><path class="petal" d="M35 14C37 9 41 8 42 9C41 14 39 16 35 14Z"/><path class="petal" d="M35 14C30 15 27 13 27 10C31 9 34 10 35 14Z"/><path class="petal" d="M35 14C34 18 31 19 29 17C30 14 32 13 35 14Z"/><circle class="center" cx="35" cy="14" r="1.5"/>
+          </svg>
+        </div>
         <h3>2. Evaluaciones Psicolaborales</h3>
         <p>Selección, potencial, aversión al riesgo, mandos medios.</p>
       </article>
       <article class="service-card service-card-green">
-        <img class="service-card-leaf service-card-leaf-3" src="{% static 'img/protea_watermark_clean.png' %}" alt="">
+        <div class="corner-floral" aria-hidden="true">
+          <svg viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+            <path class="stem" d="M9 39C12 29 17 22 26 16C30 13 33 9 35 3"/><path class="vein" d="M17 25C13 20 10 17 6 16M22 20C23 15 25 11 28 8"/><path class="leaf" d="M6 16C10 14 14 16 17 20C13 21 9 19 6 16Z"/><path class="leaf" d="M28 8C27 4 29 2 34 1C34 5 32 7 28 8Z"/><path class="petal" d="M35 14C31 11 31 6 34 2C38 6 38 10 35 14Z"/><path class="petal" d="M35 14C37 9 41 8 42 9C41 14 39 16 35 14Z"/><path class="petal" d="M35 14C30 15 27 13 27 10C31 9 34 10 35 14Z"/><path class="petal" d="M35 14C34 18 31 19 29 17C30 14 32 13 35 14Z"/><circle class="center" cx="35" cy="14" r="1.5"/>
+          </svg>
+        </div>
         <h3>3. Salud Ocupacional y Calidad de Vida</h3>
         <p>Protocolos MINSAL, ergonomía, bienestar.</p>
       </article>
       <article class="service-card service-card-red">
-        <img class="service-card-leaf service-card-leaf-4" src="{% static 'img/protea_watermark_clean.png' %}" alt="">
+        <div class="corner-floral" aria-hidden="true">
+          <svg viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+            <path class="stem" d="M9 39C12 29 17 22 26 16C30 13 33 9 35 3"/><path class="vein" d="M17 25C13 20 10 17 6 16M22 20C23 15 25 11 28 8"/><path class="leaf" d="M6 16C10 14 14 16 17 20C13 21 9 19 6 16Z"/><path class="leaf" d="M28 8C27 4 29 2 34 1C34 5 32 7 28 8Z"/><path class="petal" d="M35 14C31 11 31 6 34 2C38 6 38 10 35 14Z"/><path class="petal" d="M35 14C37 9 41 8 42 9C41 14 39 16 35 14Z"/><path class="petal" d="M35 14C30 15 27 13 27 10C31 9 34 10 35 14Z"/><path class="petal" d="M35 14C34 18 31 19 29 17C30 14 32 13 35 14Z"/><circle class="center" cx="35" cy="14" r="1.5"/>
+          </svg>
+        </div>
         <h3>4. Seguridad y Prevención</h3>
         <p>Cultura de seguridad, evaluaciones <strong>CORMA</strong>, intervención post-accidente.</p>
       </article>

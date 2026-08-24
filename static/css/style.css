@@ -2253,34 +2253,7 @@ form.contact-form {
   line-height: 1.6;
 }
 
-/* Efectos Hover */
-.acrostic-row:hover {
-  transform: translateX(6px);
-}
-
-.acrostic-row:hover .letter-main {
-  color: var(--protea-deep);
-  transform: scale(1.04);
-}
-
-.acrostic-row:hover .letter-rest {
-  color: var(--protea);
-  transform: translateX(2px);
-}
-
-.acrostic-row:hover .acrostic-content {
-  box-shadow: var(--shadow-md);
-  background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
-              linear-gradient(135deg, var(--sage) 0%, rgba(114, 177, 37, 0.4) 100%) border-box;
-}
-
-.acrostic-row:hover .acrostic-content::before {
-  opacity: 1;
-}
-
-.acrostic-row:hover .acrostic-content h3 {
-  color: var(--sage);
-}
+/* Hover deshabilitado por diseño: el texto debe mantenerse estático */
 
 /* Ajustes responsivos para tablets y móviles */
 @media (max-width: 900px) {
@@ -2288,10 +2261,6 @@ form.contact-form {
     grid-template-columns: 1fr;
     gap: 12px;
     padding-left: 0;
-  }
-  
-  .acrostic-row:hover {
-    transform: translateY(-4px);
   }
   
   .acrostic-letter-block {
@@ -2765,7 +2734,7 @@ form.contact-form {
 
 .service-card {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   z-index: 2;
   color: var(--protea);
   min-height: 190px;
@@ -2777,36 +2746,36 @@ form.contact-form {
 
 .service-card-leaf {
   position: absolute;
-  z-index: 5;
-  width: 72px;
-  height: 72px;
+  z-index: 10;
+  width: 60px;
+  height: auto;
   object-fit: contain;
-  opacity: 0.86;
+  opacity: 0.9;
   pointer-events: none;
 }
 
 .service-card-leaf-1 {
-  right: 5px;
-  bottom: 5px;
-  transform: rotate(28deg);
+  top: -25px;
+  left: -25px;
+  transform: rotate(-10deg);
 }
 
 .service-card-leaf-2 {
-  left: 5px;
-  bottom: 5px;
-  transform: scaleX(-1) rotate(28deg);
+  top: -25px;
+  right: -25px;
+  transform: rotate(14deg);
 }
 
 .service-card-leaf-3 {
-  right: 5px;
-  top: 5px;
-  transform: scaleY(-1) rotate(28deg);
+  bottom: -25px;
+  left: -25px;
+  transform: rotate(12deg);
 }
 
 .service-card-leaf-4 {
-  left: 5px;
-  top: 5px;
-  transform: scale(-1) rotate(28deg);
+  bottom: -25px;
+  right: -25px;
+  transform: scaleX(-1) rotate(-12deg);
 }
 
 .service-card h3 {
@@ -3279,15 +3248,12 @@ form.contact-form {
   background: rgba(255,255,255,.72);
   border: 1px solid var(--line);
   border-top: 4px solid var(--sage);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  transition: none;
 }
 
 .empresa-acrostic-grid .acrostic-row:nth-child(2) { border-top-color: var(--protea); transform: translateY(28px); }
 .empresa-acrostic-grid .acrostic-row:nth-child(3) { border-top-color: var(--gold); }
 .empresa-acrostic-grid .acrostic-row:nth-child(4) { border-top-color: var(--header-green); transform: translateY(28px); }
-.empresa-acrostic-grid .acrostic-row:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
-.empresa-acrostic-grid .acrostic-row:nth-child(2):hover,
-.empresa-acrostic-grid .acrostic-row:nth-child(4):hover { transform: translateY(20px); }
 
 .empresa-acrostic-grid .acrostic-letter-block { justify-content: flex-start; padding: 0 0 20px; }
 .empresa-acrostic-grid .letter-main { font-size: 54px; }
@@ -3448,12 +3414,6 @@ form.contact-form {
   transform: none;
 }
 
-.empresa-acrostic-grid .acrostic-row:nth-child(2):hover,
-.empresa-acrostic-grid .acrostic-row:nth-child(4):hover,
-.empresa-team-section .team-card:nth-child(2):hover {
-  transform: translateY(-5px);
-}
-
 .empresa-values-section {
   background-color: transparent;
   border-top: 1px solid var(--line);
@@ -3484,7 +3444,6 @@ form.contact-form {
   position: relative;
 }
 
-.empresa-values-list .valor-row:hover { transform: none; box-shadow: none; background: rgba(255,255,255,.45); }
 .empresa-values-list .valor-row h3 { font-size: 24px; color: var(--ink); }
 .empresa-values-list .valor-row p { max-width: 52ch; font-size: 15px; }
 
